@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  # frontend web server
+  nginx:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    depends_on:
+      - web
+    ports:
+      - 8080:80
+  
+  # backend web server
+  web:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - "db"
+    environment:
+      DB_CONNECTION_STRING: "host=db;port=5432;database=demodb;username=demo;password=secret"
+    # volumes:
+    #  - ./:/code:ro
+
+  # database server
+  db:
+    image: "postgres:latest"
+    environment:
+      - POSTGRES_DB=demodb
+      - POSTGRES_USER=demo
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - 5432
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+      - ./dbscripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+volumes:
+  db_volume:
+
