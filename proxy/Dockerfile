@@ -1,0 +1,17 @@
+FROM nginx:latest
+
+# Add a package when building the image:
+#RUN apt-get update \
+#  && apt-get install -y nginx-module-geoip \
+#  && apt-get clean \
+#  && rm -rf /var/lib/apt/lists/*
+
+# Copy a local file when building the image:
+# Helpful: https://www.docker.com/blog/how-to-use-the-official-nginx-docker-image/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Static files - React application
+# COPY <some folder> /code/<some folder>
+
+# The command to run when the container starts (default for this image would be fine too):
+CMD nginx -g "daemon off; error_log /dev/stdout info;"
