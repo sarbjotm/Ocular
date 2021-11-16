@@ -14,7 +14,7 @@ CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 
 CREATE TABLE roles (
     id BIGSERIAL PRIMARY KEY,
-    description VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL
 );
 
 INSERT INTO roles (description) VALUES
