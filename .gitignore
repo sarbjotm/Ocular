@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# docker-compose DB volume
+/db_volume
+
 # compiled output
 /dist
 /tmp
