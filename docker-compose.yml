@@ -20,8 +20,9 @@ services:
       - "db"
     environment:
       DB_CONNECTION_STRING: "host=db;port=5432;database=demodb;username=demo;password=secret"
-    # volumes:
-    #  - ./:/code:ro
+      COOKIE_SECRET: "test"
+    volumes:
+      - ./:/code:ro
 
   # database server
   db:
