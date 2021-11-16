@@ -10,6 +10,7 @@ function useSessions(app, passport, database) {
         secret: process.env.COOKIE_SECRET,
         resave: false,
         saveUninitialized: false,
+        proxy: true,
         cookie: {
             // 1 hour
             maxAge: 3600 * 1000
