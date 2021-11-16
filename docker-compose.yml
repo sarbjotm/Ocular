@@ -19,8 +19,13 @@ services:
     depends_on:
       - "db"
     environment:
-      DB_CONNECTION_STRING: "host=db;port=5432;database=demodb;username=demo;password=secret"
-      COOKIE_SECRET: "test"
+      POSTGRES_DB: demodb
+      POSTGRES_USE: demo
+      POSTGRES_PASSWORD: secret
+      POSTGRES_PORT: 5432
+      DB_CONNECTION_STRING: postgres://demo:secret@db:5432/demodb
+      COOKIE_SECRET: test
+      # NODE_ENV=production
     volumes:
       - ./:/code:ro
 
@@ -35,8 +40,8 @@ services:
       - 5432
     restart: always
     volumes:
-      - db_volume:/var/lib/postgresql/data
       - ./dbscripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+      - ./db_volume:/var/lib/postgresql/data
 volumes:
   db_volume:
 
