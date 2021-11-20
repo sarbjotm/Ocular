@@ -2,16 +2,19 @@ version: '3'
 
 services:
   # nginx server
-  # nginx:
-  #   build:
-  #     context: ./proxy
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - web
-  #   ports:
-  #     - 8080:80
+  # comment this section for docker-compose build for now
+  nginx:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    depends_on:
+      - web
+    ports:
+      - 8080:80
   
   # frontend development environment
+  # reference: https://mherman.org/blog/dockerizing-a-react-app/
+  # TODO: setup production
   react:
     build:
       context: ./frontend
@@ -25,14 +28,15 @@ services:
       - CHOKIDAR_USEPOLLING=true
   
   # backend web server
-  # web:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - "db"
-  #   environment:
-  #     DB_CONNECTION_STRING: "host=db;port=5432;database=demodb;username=demo;password=secret"
+  # comment this section for docker-compose build for now
+  web:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - "db"
+    environment:
+      DB_CONNECTION_STRING: "host=db;port=5432;database=demodb;username=demo;password=secret"
 
   # database server
   db:
