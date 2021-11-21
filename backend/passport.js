@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local').Strategy;
 
 const loginQuery = 'SELECT id, email, password, type FROM users WHERE username=$1;';
+// Contains all fields which are put into req.user
 const deserializeQuery = 'SELECT id, email, type FROM users WHERE id=$1;';
 
 module.exports = (passport, database) => {
