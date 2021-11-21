@@ -3,14 +3,20 @@ const db = require('../db');
 const bcrypt = require('bcrypt');
 let saltRounds = 10;
 
-let newAccountQuery = 'INSERT INTO users (username, password, email, type) VALUES ($1, $2, $3, $4);';
+const newAccountQuery = 'INSERT INTO users (username, password, email, type) VALUES ($1, $2, $3, $4);';
+const existingAccountQuery = 'SELECT username FROM users WHERE username=$1;';
 
-function createAccount(req, res) {
+async function createAccount(req, res) {
     // Validate email
     // Validate username
     // Validate password (special characters/length requirements)
 
     // Check that no existing account matches email/username
+    let accountAlreadyExists = await db.query(existingAccountQuery, [req.body.username]); 
+    if (accountAlreadyExists.rows.length > 0) {
+        return res.send("Username already exists in system.");
+    }
+
     // Generate salt and insert into database
     bcrypt.hash(req.body.password, saltRounds, (hashErr, hash) => {
         if (hashErr) return res.send("Failed to hash");
