@@ -1,7 +1,8 @@
 version: '3'
 
 services:
-  # frontend web server
+  # nginx server
+  # comment this section for docker-compose build for now
   nginx:
     build:
       context: ./proxy
@@ -11,7 +12,23 @@ services:
     ports:
       - 8080:80
   
+  # frontend development environment
+  # reference: https://mherman.org/blog/dockerizing-a-react-app/
+  # TODO: setup production
+  react:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - "./frontend:/react-app"
+      - "/react-app/node_modules"
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  
   # backend web server
+  # comment this section for docker-compose build for now
   web:
     build:
       context: ./backend
@@ -44,4 +61,3 @@ services:
       - ./db_volume:/var/lib/postgresql/data
 volumes:
   db_volume:
-
