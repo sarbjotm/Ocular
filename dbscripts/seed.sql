@@ -18,6 +18,7 @@ CREATE TABLE roles (
 );
 
 INSERT INTO roles (description) VALUES
+    ('Administrator'),
     ('Instructor'),
     ('Student');
 
@@ -27,7 +28,20 @@ CREATE TABLE users (
     password VARCHAR(255),
     email VARCHAR(255),
     type INTEGER NOT NULL,
+    is_approved BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (type) REFERENCES roles ON DELETE CASCADE
+);
+
+CREATE INDEX users_username ON users (username);
+
+CREATE TABLE grades (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT,
+    -- Alternative: ID to specific offering of course (section/year)
+    course_id BIGINT,
+    gpa DECIMAL(4, 2),
+    letter VARCHAR(5),
+    FOREIGN KEY (user_id) REFERENCES users ON DELETE CASCADE
 );
 
 COMMIT;
