@@ -46,7 +46,12 @@ function logout(req, res, callback) {
     });
 }
 
+async function viewProfile(req, res) {
+    return res.json(req.user);
+}
+
 module.exports = {
     createAccount,
-    logout
+    logout,
+    viewProfile
 }

@@ -23,5 +23,6 @@ router.get('/restricted', accessControl.requiresLogin, (req, res) => {
 
 router.get('/logout', accessControl.requiresLogin, users.logout);
 
+router.get('/profile', accessControl.requiresLogin, users.viewProfile);
 
 module.exports = router;
