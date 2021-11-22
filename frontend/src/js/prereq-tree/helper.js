@@ -9,7 +9,7 @@ export async function fetchPrereqFromHTML(term, year, subject, code) {
         const outlineResponse = await fetch(`https://www.sfu.ca/outlines.html?${year}/${term}/${subject}/${code}/${section}`);
         const outline = await outlineResponse.text();
         prereqLine = outline.match(prereqRegex)[0];
-        console.log(prereqLine);
+        // console.log(prereqLine);
     } catch (error) {
         console.error(error);
     }
