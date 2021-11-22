@@ -1,28 +1,46 @@
 import React, { useState, useEffect } from "react";
 
+import { fetchPrereqFromHTML } from "./helper";
+
+import baseCourses from "../../json/base-courses.json";
+
 export const Tree = () => {
-    const prereqRegex = /<li class="prereq"> <h4>Prerequisite.+?<\/li>/;
-    const term = "spring";
-    const year = "2022";
-    const subject = "cmpt";
-    const code = "120";
     
-    //const [outline, setOutline] = useState("");
+    const term = "summer";
+    const year = "2021";
+    const subject = "cmpt";
+    const code = "376w";
+
+    
+    const [treeData, setTreeData] = useState({});
 
     useEffect(async () => {
-        try {
-            const sectionResponse = await fetch(`https://www.sfu.ca/bin/wcm/course-outlines?${year}/${term}/${subject}/${code}`);
-            const sectionData = await sectionResponse.json();
-            const section = sectionData[0]["value"]; // get the first available section
-            const outlineResponse = await fetch(`https://www.sfu.ca/outlines.html?${year}/${term}/${subject}/${code}/${section}`);
-            const outline = await outlineResponse.text();
-            const prereqLine = await outline.match(prereqRegex);
-            console.log(prereqLine);
-        } catch (error) {
-            console.error(error);
-        }
+        var searchedCourse = [];
+        var courseToBeSearched = [];
 
-        // get pre-req
+        const prereqLine = await fetchPrereqFromHTML(term, year, subject, code);
+        baseCourses["COURSE_CODE"].forEach(baseCourse => {
+            if (prereqLine.includes(baseCourse)) { // add all prereq courses into search queue
+                courseToBeSearched.push(baseCourse);
+            }
+        });
+        
+        searchedCourse.push(`${subject.toUpperCase()} ${code.toUpperCase()}`);
+        console.log("courseToBeSearched", courseToBeSearched);
+        console.log("searchedCourse", searchedCourse);
+        
+        courseToBeSearched.forEach(async course => {
+            const prereqLine = await fetchPrereqFromHTML(term, year, course.split(" ")[0].toLowerCase(), course.split(" ")[1].toLowerCase());
+            baseCourses["COURSE_CODE"].forEach(baseCourse => {
+                if (prereqLine.includes(baseCourse) && searchedCourse.indexOf(baseCourse) === -1) { // add all prereq courses that haven't been searched into search queue
+                    courseToBeSearched.push(baseCourse);
+                }
+            });
+
+            courseToBeSearched = courseToBeSearched.filter(c => c != course);
+            console.log("courseToBeSearched", courseToBeSearched);
+            console.log("searchedCourse", searchedCourse);
+        });
     }, []);
 
     return(
