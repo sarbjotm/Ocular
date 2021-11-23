@@ -14,7 +14,7 @@ export const Tree = () => {
     const [treeData, setTreeData] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
-    async function loadPrereqTree(term, year, subject, code) {
+    async function loadPrereqTree() {
         setIsLoading(true);
 
         var searchedCourse = [];
@@ -56,11 +56,11 @@ export const Tree = () => {
     }
 
     useEffect(async () => {
-        loadPrereqTree(term, year, subject, code);
+        loadPrereqTree();
     }, []);
 
     function handleSubmit(_event) {
-        loadPrereqTree(term, year, subject, code);
+        loadPrereqTree();
     }
 
     return(
