@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+    <div>
+        <h1>User List</h1>
+    </div>
+    <div>
+        <% if(accList.length > 0){ %>
+            <div>
+                <%= accList %>
+            </div>
+            <% } else{ %>
+                <div>Empty list.</div>
+                <% } %>
+    </div>
+    <a href="/users/newuser">Sign Up</a>
+</body>
+
+</html>

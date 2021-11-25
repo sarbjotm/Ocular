@@ -3,6 +3,8 @@ const accessControl = require('./accessControl');
 const users = require('./index');
 const passport = require('passport');
 
+router.get('/', users.userList);
+
 router.get('/new', (req, res) => {
     res.render('newuser');
 });
