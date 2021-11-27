@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+    <div>
+        <h1>User List</h1>
+    </div>
+    <div>
+        <% if(unapprovedList.length > 0){ %>
+            <div>
+                <%= unapprovedList %>
+            </div>
+            <% } else{ %>
+                <div>No pending users to approve.</div>
+                <% } %>
+    </div>
+    <a href="/users/admin/batch">Batch Approve</a>
+</body>
+
+</html>

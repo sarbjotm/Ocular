@@ -37,7 +37,7 @@ services:
       - "db"
     environment:
       POSTGRES_DB: demodb
-      POSTGRES_USE: demo
+      POSTGRES_USER: demo
       POSTGRES_PASSWORD: secret
       POSTGRES_PORT: 5432
       DB_CONNECTION_STRING: postgres://demo:secret@db:5432/demodb
