@@ -46,7 +46,9 @@ services:
 
   # database server
   db:
-    image: "postgres:latest"
+    build:
+      context: ./dbscripts
+      dockerfile: Dockerfile
     environment:
       - POSTGRES_DB=demodb
       - POSTGRES_USER=demo
