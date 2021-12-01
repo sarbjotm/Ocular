@@ -44,4 +44,11 @@ CREATE TABLE grades (
     FOREIGN KEY (user_id) REFERENCES users ON DELETE CASCADE
 );
 
+CREATE TABLE courses (
+    area VARCHAR(4),
+    code VARCHAR(4),
+    prerequisite VARCHAR,
+    PRIMARY KEY (area, code)
+);
+
 COMMIT;
