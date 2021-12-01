@@ -2,7 +2,6 @@ version: '3'
 
 services:
   # nginx server
-  # comment this section for docker-compose build for now
   nginx:
     build:
       context: ./proxy
@@ -28,7 +27,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
   
   # backend web server
-  # comment this section for docker-compose build for now
   web:
     build:
       context: ./backend
