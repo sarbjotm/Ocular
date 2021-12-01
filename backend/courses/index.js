@@ -10,8 +10,8 @@ async function courseList(req, res) {
 }
 
 async function getCoursePrerequisite(req, res) {
-    let area = req.body.area;
-    let code = req.body.code;
+    let area = req.params.area;
+    let code = req.params.code;
 
     let prerequisiteQueryResult = await db.query(prerequisiteQuery, [area, code]);
     if (!prerequisiteQueryResult.rows.length) {
