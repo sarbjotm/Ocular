@@ -1,15 +1,12 @@
 export async function fetchPrereqFromHTML(term, year, subject, code) {
-    const prereqRegex = /<h4>Prerequisites((.|\n)*)<\/li>/gm;
     var prereqLine = "";
 
     try {
-        const sectionResponse = await fetch(`https://www.sfu.ca/bin/wcm/course-outlines?${year}/${term}/${subject}/${code}`);
-        const sectionData = await sectionResponse.json();
-        const section = sectionData[0]["value"]; // get the first available section
-        const outlineResponse = await fetch(`https://www.sfu.ca/outlines.html?${year}/${term}/${subject}/${code}/${section}`);
-        const outline = await outlineResponse.text();
-        prereqLine = outline.match(prereqRegex)[0];
-        // console.log(prereqLine);
+        const response = await fetch(`/courses/info/${subject.toUpperCase()}/${code.toUpperCase()}`);
+        // console.log(response);
+        const data = await response.json();
+        // console.log(data);
+        prereqLine = data["prerequisite"];
     } catch (error) {
         console.error(error);
     }
