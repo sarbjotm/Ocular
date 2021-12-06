@@ -3,6 +3,8 @@ const accessControl = require('./accessControl');
 const users = require('./index');
 const passport = require('passport');
 
+router.get('/', users.userList);
+
 router.get('/new', (req, res) => {
     res.render('newuser');
 });
@@ -20,6 +22,10 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 router.get('/restricted', accessControl.requiresLogin, (req, res) => {
     res.send("This is a protected resource!");
 });
+
+// Admin authentication
+router.get('/admin', accessControl.requiresAdmin, users.adminValidate);
+router.post('/admin/batch', accessControl.requiresAdmin, users.batchVal);
 
 router.get('/logout', accessControl.requiresLogin, users.logout);
 

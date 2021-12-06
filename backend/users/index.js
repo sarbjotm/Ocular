@@ -5,6 +5,36 @@ let saltRounds = 10;
 
 const newAccountQuery = 'INSERT INTO users (username, password, email, type) VALUES ($1, $2, $3, $4);';
 const existingAccountQuery = 'SELECT username FROM users WHERE username=$1;';
+const listAccounts = 'SELECT username FROM users ORDER BY id ASC';
+const unapprovedAccounts = 'SELECT * FROM users WHERE is_approved = 0';
+const updateApproval = 'UPDATE users SET is_approved = 1 WHERE is_approved = 0';
+
+async function userList(req, res) {
+    db.query(listAccounts, (error, results) => {
+        if (error) {
+            console.error(error);
+        }
+        res.render("userList.ejs", { accList: results.rows })
+    })
+}
+
+async function adminValidate(req, res) {
+    db.query(unapprovedAccounts, (error, results) => {
+        if (error) {
+            console.error(error);
+        }
+        res.render("adminHome.ejs", { unapprovedList: results.rows })
+    })
+}
+
+async function batchVal(req, res) {
+    db.query(updateApproval, (error, results) => {
+        if (error) {
+            console.error(error);
+        }
+        res.render("batchApprove.ejs")
+    })
+}
 
 async function createAccount(req, res) {
     // Validate email
@@ -17,7 +47,7 @@ async function createAccount(req, res) {
     // Validate password (special characters/length requirements)
 
     // Check that no existing account matches email/username
-    let accountAlreadyExists = await db.query(existingAccountQuery, [req.body.username]); 
+    let accountAlreadyExists = await db.query(existingAccountQuery, [req.body.username]);
     if (accountAlreadyExists.rows.length > 0) {
         return res.send("Username already exists in system.");
     }
@@ -53,5 +83,8 @@ async function viewProfile(req, res) {
 module.exports = {
     createAccount,
     logout,
-    viewProfile
+    viewProfile,
+    userList,
+    adminValidate,
+    batchVal
 }
