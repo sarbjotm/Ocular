@@ -17,6 +17,4 @@ RUN npm install --silent
 COPY . /react-app
 
 # start react app
-CMD pwd \
-    && ls -la \
-    && npm start
+CMD npm start

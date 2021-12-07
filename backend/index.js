@@ -11,6 +11,7 @@ const pp_config = require('./passport');
 const db = require('./db');
 const useSessions = require('./users/sessions').useSessions;
 const userRouter = require('./users/routes');
+const courseRouter = require('./courses/routes');
 
 app.set('trust proxy', 1);
 app.use(bodyParser.json());
@@ -28,5 +29,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', userRouter);
+
+app.use('/courses', courseRouter);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
