@@ -7,7 +7,18 @@
     <div>
         <h1>Course Times</h1>
     </div>
-
+    <div>
+        <% if(calendarList.length > 0){ %>
+            <ul>
+                <% for(var i=0; i < calendarList.length; i++) {%>
+                   <li><%= calendarList[i]['area'] %><%= calendarList[i]['code'] %></li>
+                <% } %>
+            </ul>
+        <% } else{ %>
+            <div>Empty list.</div>
+        <% } %>
+    </div>
+    <p>This is just a test to see if page was updated</p>
 </body>
 
 </html>
