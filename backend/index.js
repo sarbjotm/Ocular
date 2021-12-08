@@ -33,6 +33,6 @@ app.use('/users', userRouter);
 
 app.use('/courses', courseRouter);
 
-app.use('/calendar', calendarRouter)
+app.use('/calendar', calendarRouter);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

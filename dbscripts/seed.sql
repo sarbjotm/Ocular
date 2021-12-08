@@ -41,6 +41,8 @@ CREATE TABLE grades (
     course_id BIGINT,
     gpa DECIMAL(4, 2),
     letter VARCHAR(5),
+    year BIGINT,
+    semester BIGINT,
     FOREIGN KEY (user_id) REFERENCES users ON DELETE CASCADE
 );
 
