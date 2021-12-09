@@ -13,6 +13,7 @@ const useSessions = require('./users/sessions').useSessions;
 const userRouter = require('./users/routes');
 const courseRouter = require('./courses/routes');
 const calendarRouter = require('./calendar/routes');
+const enrollmentRouter = require('./enrollment/routes');
 
 app.set('trust proxy', 1);
 app.use(bodyParser.json());
@@ -34,5 +35,7 @@ app.use('/users', userRouter);
 app.use('/courses', courseRouter);
 
 app.use('/calendar', calendarRouter);
+
+app.use('/enrollment', enrollmentRouter);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

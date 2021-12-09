@@ -5,18 +5,18 @@
 
 <body>
     <div>
-        <h1>User List</h1>
+        <h1>Courses Available For Enrollment</h1>
     </div>
     <div>
-        <% if(accList.length > 0){ %>
+        <% if(eList.length > 0){ %>
             <div>
                 <%= accList %>
             </div>
             <% } else{ %>
-                <div>Empty list.</div>
+                <div>No courses to enroll in.</div>
                 <% } %>
     </div>
-    <a href="/users/new">Sign Up</a>
+    <a href="/enrollment/">Back to Landing Page</a>
 </body>
 
 </html>
