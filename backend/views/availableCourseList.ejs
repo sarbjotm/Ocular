@@ -9,9 +9,14 @@
     </div>
     <div>
         <% if(eList.length > 0){ %>
-            <div>
-                <%= accList %>
-            </div>
+            <ul>
+                <% for(var i=0; i < eList.length; i++) {%>
+                    <li>
+                        <%= eList[i]['area'] %>
+                            <%= eList[i]['code'] %>
+                    </li>
+                    <% } %>
+            </ul>
             <% } else{ %>
                 <div>No courses to enroll in.</div>
                 <% } %>
