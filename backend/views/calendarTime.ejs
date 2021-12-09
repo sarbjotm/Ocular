@@ -11,7 +11,7 @@
         <% if(calendarList.length > 0){ %>
             <ul>
                 <% for(var i=0; i < calendarList.length; i++) {%>
-                   <li><%= calendarList[i]['area'] %><%= calendarList[i]['code'] %></li>
+                   <li><%= calendarList[i]['area'] %><%= calendarList[i]['code'] %> <%=calendarList[i]['times']%></li>
                 <% } %>
             </ul>
         <% } else{ %>
