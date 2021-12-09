@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+
+    <h1>Course Enrollment</h1>
+    <h2>Select the course you want to enroll in</h2>
+
+    <form action="/enrollment/enroll">
+        <label for="enrollment/enroll">Choose a course area:</label>
+        <select class="area" id="course-area">
+            <% for(var i=0; i < alist.length; i++) { %>
+            <option><%= alist[i]['area'] %></option>
+            <% } %>
+        </select>
+        <select class="code" id="course-code">
+            <% for(var i=0; i < clist.length; i++) { %>
+            <option><%= clist[i]['code'] %></option>
+            <% } %>
+        </select>
+        <input type="submit">
+    </form>
+
+    <div></div>
+    <a href="/enrollment/">Back to Landing Page</a>
+</body>
+
+</html>

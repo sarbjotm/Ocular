@@ -7,4 +7,6 @@ router.get('/', (req, res) => {
 
 router.get('/list', enrollment.courseList);
 
+router.get('/enroll', enrollment.enrollRegister);
+
 module.exports = router;
