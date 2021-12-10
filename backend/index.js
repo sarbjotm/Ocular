@@ -26,7 +26,7 @@ pp_config(passport, db);
 useSessions(app, passport, db);
 
 app.get('/', (req, res) => {
-    res.send("Hi");
+    res.send("Hello, welcome to our temporary landing page!");
 });
 
 app.use('/users', userRouter);

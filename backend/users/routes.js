@@ -19,6 +19,10 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
     res.send("Logged in");
 });
 
+router.get('/reset', (req, res) => {
+    res.render('reset');
+});
+
 router.get('/restricted', accessControl.requiresLogin, (req, res) => {
     res.send("This is a protected resource!");
 });
