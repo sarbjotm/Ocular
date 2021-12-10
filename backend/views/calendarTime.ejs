@@ -9,16 +9,30 @@
     </div>
     <div>
         <% if(calendarList.length > 0){ %>
-            <ul>
-                <% for(var i=0; i < calendarList.length; i++) {%>
-                   <li><%= calendarList[i]['area'] %><%= calendarList[i]['code'] %> <%=calendarList[i]['times']%></li>
+                <% for(var i=0; i < calendarList.length; i++) { %>
+                   <%= calendarList[i]['area'] %><%= calendarList[i]['code'] %>
+                   <% var time_of_course  = ' ' %>
+                   <br>
+                <% for(var j = 0; j < calendarList[i]['times'].length; j++) { %>
+                   <% if(calendarList[i]['times'].charAt(j) == ';') { %>
+                    <%= time_of_course %>
+                    <% time_of_course  = ' ' %>
+                    <br>
+                  <% } else{ %>
+                  <% if(calendarList[i].times.charAt(j) == 'M' || calendarList[i].times.charAt(j) == 'T' || calendarList[i].times.charAt(j) == 'W' || calendarList[i].times.charAt(j) == 'R' || calendarList[i].times.charAt(j) == 'F'){ %>
+                    <%=calendarList[i]['times'].charAt(j)%>
+                  <% } else{ %>
+
+                  <% time_of_course = time_of_course + calendarList[i]['times'].charAt(j) %>
+                  <% } } %>
                 <% } %>
-            </ul>
-        <% } else{ %>
-            <div>Empty list.</div>
+                <%= time_of_course %>
+                <br>
+                <br>
+        <% } } else{ %>
+            <div>You are not enrolled in any classes.</div>
         <% } %>
     </div>
-    <p>This is just a test to see if page was updated</p>
 </body>
 
 </html>
