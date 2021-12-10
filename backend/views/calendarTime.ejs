@@ -13,21 +13,18 @@
                    <%= calendarList[i]['area'] %><%= calendarList[i]['code'] %>
                    <% var time_of_course  = ' ' %>
                    <br>
+                <ul>
                 <% for(var j = 0; j < calendarList[i]['times'].length; j++) { %>
                    <% if(calendarList[i]['times'].charAt(j) == ';') { %>
-                    <%= time_of_course %>
+                    <li><%= time_of_course %></li>
                     <% time_of_course  = ' ' %>
                     <br>
                   <% } else{ %>
-                  <% if(calendarList[i].times.charAt(j) == 'M' || calendarList[i].times.charAt(j) == 'T' || calendarList[i].times.charAt(j) == 'W' || calendarList[i].times.charAt(j) == 'R' || calendarList[i].times.charAt(j) == 'F'){ %>
-                    <%=calendarList[i]['times'].charAt(j)%>
-                  <% } else{ %>
-
                   <% time_of_course = time_of_course + calendarList[i]['times'].charAt(j) %>
-                  <% } } %>
+                  <% } %>
                 <% } %>
-                <%= time_of_course %>
-                <br>
+                <li><%= time_of_course %></li>
+                </ul>
                 <br>
         <% } } else{ %>
             <div>You are not enrolled in any classes.</div>
