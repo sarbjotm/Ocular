@@ -9,4 +9,6 @@ router.get('/list', enrollment.courseList);
 
 router.get('/enroll', enrollment.enrollRegister);
 
+router.post('/enroll', enrollment.enrollCheck);
+
 module.exports = router;
