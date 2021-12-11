@@ -27,18 +27,19 @@ async function enrollRegister(req, res) {
 
 async function enrollCheck(req, res) {
 
-    // // Validating username
-    // let accountExists = await db.query(existingAccountQuery, [req.body.username]);
-    // if (accountExists.rows.length == 0) {
-    //     return res.send("Error, user does not exist in the user database.");
-    // }
+    // Validating username
+    let accountExists = await db.query(existingAccountQuery, [req.body.username]);
+    if (accountExists.rows.length == 0) {
+        return res.send("Error, user does not exist in the user database.");
+    }
 
-    // // Validating course
-    // let prereqCheck = await db.query(existingCourseQuery, [req.body.area, req.body.code]);
-    // if (prereqCheck.rows.length == 0) {
-    //     return res.send("Error, course does not exist in the course list.");
-    // }
-    return res.send("POST works.")
+    // Validating course
+    let prereqCheck = await db.query(existingCourseQuery, [req.body.area, req.body.code]);
+    if (prereqCheck.rows.length == 0) {
+        return res.send("Error, course does not exist in the course list.");
+    }
+
+    //return res.send("POST works.")
 }
 
 module.exports = {
