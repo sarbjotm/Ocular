@@ -8,6 +8,10 @@ const existingAccountQuery = 'SELECT username FROM users WHERE username=$1;';
 const listAccounts = 'SELECT username FROM users ORDER BY id ASC';
 const unapprovedAccounts = 'SELECT * FROM users WHERE is_approved = 0';
 const updateApproval = 'UPDATE users SET is_approved = 1 WHERE is_approved = 0';
+const getGradesQuery = `SELECT 
+    g.course_id, g.gpa, g.letter, g.year, g.semester
+    FROM users u, grades g
+    WHERE u.id=$1 AND u.id = g.user_id;`;
 
 async function userList(req, res) {
     db.query(listAccounts, (error, results) => {
@@ -76,6 +80,7 @@ function logout(req, res, callback) {
     });
 }
 
+
 async function viewProfile(req, res) {
     // req.user.id exists
     // query based on ID
@@ -83,7 +88,8 @@ async function viewProfile(req, res) {
     // email
     // type converted to name
     // all courses where user_id = ID in grades
-    return res.json(req.user);
+    let userGrades = await db.query(getAccountQuery, [req.user.id]);
+    return res.json(userGrades.rows);
 }
 
 module.exports = {
