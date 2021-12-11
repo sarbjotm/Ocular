@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 let saltRounds = 10;
 
 const newAccountQuery = 'INSERT INTO users (username, password, email, type) VALUES ($1, $2, $3, $4);';
-const updateAccountQuery = 'UPDATE users (username, password, email, type) VALUES ($1, $2, $3, $4) WHERE username=$1;';
+const updateAccountQuery = 'UPDATE users SET password = $2, type = $4 WHERE username=$1 AND email=$3;';
+//const updateAccountQuery = 'UPDATE users SET password = $2, email = $3, type = $4 WHERE username=$1;';
 const existingAccountQuery = 'SELECT username FROM users WHERE username=$1;';
 const listAccounts = 'SELECT username FROM users ORDER BY id ASC';
 const unapprovedAccounts = 'SELECT * FROM users WHERE is_approved = 0';
@@ -87,7 +88,7 @@ async function resetPassword(req, res) {
     // Validate username
     // Validate password (special characters/length requirements)
 
-    // Check that no existing account matches email/username
+    // Check that existing account does match email/username
     let accountAlreadyExists = await db.query(existingAccountQuery, [req.body.username]);
     if (accountAlreadyExists.rows.length == 0) {
         return res.send("Username does not exist in system");
@@ -101,9 +102,13 @@ async function resetPassword(req, res) {
                 console.error(err);
                 return res.send("Something broke");
             }
+            else{
             return res.send("Updated Password");
+            //return res.send("Updated Password and Email");
+            }
         });
     });
+    //return res.send("Please provide all details correctly...");
 }
 
 async function viewProfile(req, res) {

@@ -39,6 +39,7 @@ services:
       POSTGRES_PASSWORD: secret
       POSTGRES_PORT: 5432
       DB_CONNECTION_STRING: postgres://demo:secret@db:5432/demodb
+      #DB_CONNECTION_STRING: postgres://demo:secret@host.docker.internal:5432/demodb
       COOKIE_SECRET: test
       # NODE_ENV=production
     volumes:
