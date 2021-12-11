@@ -77,6 +77,12 @@ function logout(req, res, callback) {
 }
 
 async function viewProfile(req, res) {
+    // req.user.id exists
+    // query based on ID
+    // grab:
+    // email
+    // type converted to name
+    // all courses where user_id = ID in grades
     return res.json(req.user);
 }
 
