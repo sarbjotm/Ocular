@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+    <div>
+        <h1>Courses Available For Enrollment</h1>
+    </div>
+    <div>
+        <% if(eList.length > 0){ %>
+            <ul>
+                <% for(var i=0; i < eList.length; i++) {%>
+                    <li>
+                        <%= eList[i]['area'] %>
+                            <%= eList[i]['code'] %>
+                    </li>
+                    <% } %>
+            </ul>
+            <% } else{ %>
+                <div>No courses to enroll in.</div>
+                <% } %>
+    </div>
+    <a href="/enrollment/">Back to Landing Page</a>
+</body>
+
+</html>
