@@ -23,6 +23,8 @@ router.get('/reset', (req, res) => {
     res.render('reset');
 });
 
+router.post('/reset', users.resetPassword);
+
 router.get('/restricted', accessControl.requiresLogin, (req, res) => {
     res.send("This is a protected resource!");
 });
