@@ -14,6 +14,7 @@ const sessionToMetadata = require('./users/sessions').sessionToMetadata;
 const userRouter = require('./users/routes');
 const courseRouter = require('./courses/routes');
 const calendarRouter = require('./calendar/routes');
+const enrollmentRouter = require('./enrollment/routes');
 
 
 app.set('trust proxy', 1);
@@ -32,6 +33,8 @@ app.use('/users', userRouter);
 app.use('/courses', courseRouter);
 
 app.use('/calendar', calendarRouter);
+
+app.use('/enrollment', enrollmentRouter);
 
 // usage: make a request with connect.sid=<session cookie> in the Cookie header 
 app.get('/session', sessionToMetadata);
