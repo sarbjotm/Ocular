@@ -9,9 +9,10 @@ const listAccounts = 'SELECT username FROM users ORDER BY id ASC';
 const unapprovedAccounts = 'SELECT * FROM users WHERE is_approved = 0';
 const updateApproval = 'UPDATE users SET is_approved = 1 WHERE is_approved = 0';
 const getGradesQuery = `SELECT 
-    g.course_id, g.gpa, g.year, g.semester
+    g.course_id AS cid, g.gpa AS gpa, g.year AS year, g.semester AS sem
     FROM users u, grades g
-    WHERE u.id=$1 AND g.user_id = u.id;`;
+    WHERE u.id=$1 AND g.user_id = u.id
+    ORDER BY g.year DESC, g.semester DESC;`;
 
 async function userList(req, res) {
     db.query(listAccounts, (error, results) => {
@@ -40,6 +41,7 @@ async function batchVal(req, res) {
     })
 }
 
+const studentCode = 3;
 async function createAccount(req, res) {
     // Validate email
     // This is general, can replace with a specific-domain email or other policy
@@ -59,7 +61,7 @@ async function createAccount(req, res) {
     // Generate salt and insert into database
     bcrypt.hash(req.body.password, saltRounds, (hashErr, hash) => {
         if (hashErr) return res.send("Failed to hash");
-        db.query(newAccountQuery, [req.body.username, hash, req.body.email, 1], (err, dbRes) => {
+        db.query(newAccountQuery, [req.body.username, hash, req.body.email, studentCode], (err, dbRes) => {
             if (err) {
                 console.error(err);
                 return res.send("Something broke");
@@ -76,20 +78,36 @@ function logout(req, res, callback) {
         }
         req.logout();
         res.redirect("/users/login");
-        // do something with result
     });
 }
 
+function groupYearSemester (accumulator, current) {
+    if (! accumulator.hasOwnProperty(current.year)) {
+        accumulator[current.year] = {};
+    }
+    if (! accumulator[current.year].hasOwnProperty(current.sem)) {
+        accumulator[current.year][current.sem] = [];   
+    }
+    let record = {
+        id: current.cid,
+        gpa: current.gpa
+    };
+    console.log(record);
+    accumulator[current.year][current.sem].push(record);
+    return accumulator;
+}
 
 async function viewProfile(req, res) {
-    // req.user.id exists
-    // query based on ID
-    // grab:
-    // email
-    // type converted to name
-    // all courses where user_id = ID in grades
     let userGrades = await db.query(getGradesQuery, [req.user.id]);
-    return res.render('landing', { courses: userGrades.rows });
+    //console.log(userGrades.rows);
+    let courses = userGrades.rows.reduce(groupYearSemester, {});
+    //console.log(courses);
+    //console.log(courses['2012']['1'][0].id);
+    return res.render('landing', { 
+        username: req.user.username,
+        type: req.user.type,
+        courses: courses
+    });
 }
 
 module.exports = {

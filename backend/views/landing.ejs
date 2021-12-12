@@ -6,30 +6,57 @@
 </head>
 
 <body>
-    <p>username</p>
-    <p>Date of registration: 01/01/2011</p>
-
-    <p>Total credits: 100</p>
-
-    <a>Admin Console</a>
-    <a>Calendar</a>
-    <a>All Courses</a>
-    <a>Planner</a>
-    <!--
-        Links:
-        Admin console (if admin)
-        Calendar
-        All courses 
-        Planner (prereq tree, enrollmenty)
-
-
-    -->
-
+    <header>
+        <ul>
+            <% if(type === 1) { %>
+                <li><a href="/users/admin">Admin Console</a></li>
+            <% } %>
+            <li><a href="/calendar">Calendar</a></li>
+            <li><a href="/courses">All Courses</a></li>
+            <li><a>Planner</a></li>
+        </ul>
+    </header>
+    <h1><%= username %>'s Course Information</h1>
+    <section>
+        <p>Date of registration: 01/01/2011</p>
+        <p>Total credits: 100</p>
+    </section> 
 
     <!--
         Semester Year-sem
         Course A: subject area, code, GPA, credits
+        TODO: convert course ID to course name/code
     -->
+    <section>
+        <% if(Object.keys(courses).length > 0){ %>
+            <h1>Course Records</h1>
+            <ul>
+            <% Object.keys(courses).forEach(function(year) {%>
+                <li>
+                    <h2><%= year %></h2>
+                    <ul>
+                    <% Object.keys(courses[year]).forEach(function(sem) {%>
+                        <li>
+                            <h3><%= sem %></h3>
+                            <ul>
+                            <% courses[year][sem].forEach(function(course) {%>
+                                <li><%= course.id %> <%= course.gpa%></li>
+                                <% }); %>
+                            </ul>
+                        </li>
+                    <% }); %>   
+                    </ul>
+                </li>
+            <% }); %>
+            </ul>
+        <% } else{ %>
+            <p>No enrolled or completed courses on record.</p>
+        <% } %>
+    </section>
+
+
+    
+    
     
 
 </body>
