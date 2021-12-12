@@ -75,7 +75,7 @@ function logout(req, res, callback) {
             return callback(err);
         }
         req.logout();
-        res.send("Logged out");
+        res.redirect("/users/login");
         // do something with result
     });
 }
@@ -88,7 +88,7 @@ async function viewProfile(req, res) {
     // email
     // type converted to name
     // all courses where user_id = ID in grades
-    let userGrades = await db.query(getAccountQuery, [req.user.id]);
+    let userGrades = await db.query(getGradesQuery, [req.user.id]);
     return res.json(userGrades.rows);
 }
 
