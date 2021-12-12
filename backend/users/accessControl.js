@@ -8,6 +8,7 @@ function requiresLogin(req, res, callback) {
 function requiresAdmin (req, res, callback) {
     // currently, admin has type ID = 1 (first entry)
     if (req.user && req.user.type == 1) return callback();
+    return res.send("Not an admin!");
     // do something for not-admin users
 }
 
