@@ -65,31 +65,46 @@ export const Tree = () => {
 
     return(
         <>
-            <label>
-                <b>Term: </b>
-                <select value={term} onChange={(e) => setTerm(e.target.value.toLowerCase())}>
-                    <option selected value="spring">spring</option>
-                    <option value="summer">summer</option>
-                    <option value="fall">fall</option>
-                </select>
-            </label>
-            <label>
-                <b>Year: </b>
-                <input type="text" value={year} onChange={(e) => setYear(e.target.value.toLowerCase())} min="2019" max="2022" step="1" />
-            </label>
-            <label>
-                <b>Subject: </b>
-                <select value={subject} onChange={e => setSubject(e.target.value.toLowerCase())}>
-                    <option selected value="cmpt">CMPT</option>
-                    <option value="macm">MACM</option>
-                </select>
-            </label>
-            <label>
-                <b>Course Number: </b>
-                <input type="text" value={code} onChange={(e) => setCode(e.target.value.toLowerCase())} />
-            </label>
-            <button onClick={handleSubmit}>Make a tree</button>
-            {isLoading ? "Loading..." : <Graphviz dot={treeData} />}
+            <div>
+                <div className="ui two column stackable grid">
+                    <div className="column">
+                        <div className="ui center aligned container">
+                            <p>
+                                <b>Term: </b>
+                                <select className="ui selection dropdown" value={term} onChange={(e) => setTerm(e.target.value.toLowerCase())}>
+                                    <option selected value="spring">spring</option>
+                                    <option value="summer">summer</option>
+                                    <option value="fall">fall</option>
+                                </select>
+                            </p>
+                            <p>
+                                <b>Year: </b>
+                                <div className="ui input">
+                                    <input type="text" value={year} onChange={(e) => setYear(e.target.value.toLowerCase())} min="2019" max="2022" step="1" />
+                                </div>
+                            </p>
+                            <p>
+                                <b>Subject: </b>
+                                <select className="ui selection dropdown" value={subject} onChange={e => setSubject(e.target.value.toLowerCase())}>
+                                    <option selected value="cmpt">CMPT</option>
+                                    <option value="macm">MACM</option>
+                                </select>
+                            </p>
+                            <p>
+                                <b>Course Number: </b>
+                                <div className="ui input">
+                                    <input className="ui input" type="text" value={code} onChange={(e) => setCode(e.target.value.toLowerCase())} />
+                                </div>
+                            </p>
+                            <button className="ui inverted red button" onClick={handleSubmit}>Make a tree</button>
+                        </div>
+                    </div>
+                    <div className="middle aligned column">
+                    {isLoading ? "Loading..." : <Graphviz dot={treeData} />}
+                    </div>
+                </div>
+                <div className="ui vertical divider" />
+            </div>
         </>
     );
 };
