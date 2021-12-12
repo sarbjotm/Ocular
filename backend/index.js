@@ -10,9 +10,11 @@ let app = express();
 const pp_config = require('./passport');
 const db = require('./db');
 const useSessions = require('./users/sessions').useSessions;
+const sessionToMetadata = require('./users/sessions').sessionToMetadata;
 const userRouter = require('./users/routes');
 const courseRouter = require('./courses/routes');
 const calendarRouter = require('./calendar/routes');
+
 
 app.set('trust proxy', 1);
 app.use(bodyParser.json());
@@ -31,8 +33,11 @@ app.use('/courses', courseRouter);
 
 app.use('/calendar', calendarRouter);
 
+// usage: make a request with connect.sid=<session cookie> in the Cookie header 
+app.get('/session', sessionToMetadata);
+
 app.get('/', (req, res) => { res.redirect('/users/login'); });
 
-app.use((req, res, next) => { res.status(404).send("") });
+app.use((req, res, next) => { res.status(404).send("Page does not exist.") });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
