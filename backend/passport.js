@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local').Strategy;
 
-const loginQuery = 'SELECT id, email, password, type FROM users WHERE username=$1;';
+const loginQuery = 'SELECT u.id, u.email, u.password, u.type FROM users u WHERE u.username=$1 AND u.is_approved = TRUE;';
 // Contains all fields which are put into req.user
 const deserializeQuery = 'SELECT id, username, email, type FROM users WHERE id=$1;';
 
@@ -10,7 +10,7 @@ module.exports = (passport, database) => {
        try {
            const result = await database.query(loginQuery, [username])
            if (result.rows.length < 1) {
-               // Username not found in the system
+               // Username not found in the system or not approved
                callback(null, false, { message: 'Incorrect username or password.' });
            }
            const resRow = result.rows[0]
