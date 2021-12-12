@@ -25,14 +25,14 @@ app.set('view engine', 'ejs');
 pp_config(passport, db);
 useSessions(app, passport, db);
 
-app.get('/', (req, res) => {
-    res.send("Hi");
-});
-
 app.use('/users', userRouter);
 
 app.use('/courses', courseRouter);
 
 app.use('/calendar', calendarRouter);
+
+app.get('/', (req, res) => { res.redirect('/users/login'); });
+
+app.use((req, res, next) => { res.status(404).send("") });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
