@@ -2,13 +2,13 @@
 
 function requiresLogin(req, res, callback) {
     if (req.user) return callback();
-    res.send("Not logged in!");
-    // do something for not-logged in users
+    return res.redirect('/users/login');
 }
 
 function requiresAdmin (req, res, callback) {
-    // rename roles as appropriate
-    if (req.user && req.user.type == 'admin') return callback();
+    // currently, admin has type ID = 1 (first entry)
+    if (req.user && req.user.type == 1) return callback();
+    return res.send("Not an admin!");
     // do something for not-admin users
 }
 

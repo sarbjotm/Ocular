@@ -21,6 +21,16 @@ function useSessions(app, passport, database) {
     app.use(passport.session());
 }
 
+async function sessionToMetadata(req, res) {
+    if (req.session && req.session.passport) {
+        return res.status(200).json({
+            user_id: req.session.passport.user
+        });
+    }
+    return res.status(404).json({});
+}
+
 module.exports = {
-    useSessions
+    useSessions,
+    sessionToMetadata
 }
