@@ -2,8 +2,7 @@
 
 function requiresLogin(req, res, callback) {
     if (req.user) return callback();
-    res.send("Not logged in!");
-    // do something for not-logged in users
+    return res.redirect('/users/login');
 }
 
 function requiresAdmin (req, res, callback) {
