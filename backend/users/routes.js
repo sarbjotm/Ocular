@@ -22,12 +22,6 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
     res.redirect('/users/profile');
 });
 
-/*
-router.get('/restricted', accessControl.requiresLogin, (req, res) => {
-    res.send("This is a protected resource!");
-});
-*/
-
 // Admin authentication
 router.get('/admin', accessControl.requiresAdmin, users.adminValidate);
 router.post('/admin/batch', accessControl.requiresAdmin, users.batchVal);
