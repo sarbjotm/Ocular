@@ -2,30 +2,38 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
 
 <body>
-    <div>
-        <h1>Courses Available For Enrollment</h1>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;ENROLLMENT SITE</div>
     </div>
-    <div>
-        <% if(eList.length > 0){ %>
-            <ul>
-                <% for(var i=0; i < eList.length; i++) {%>
-                    <li>
-                        <%= eList[i]['area'] %>
-                            <%= eList[i]['code'] %>
-                    </li>
-                    <% } %>
-            </ul>
-            <% } else{ %>
-                <div>No courses to enroll in.</div>
-                <% } %>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <div class="ui medium header">Courses Available For Enrollment</div>
+            <div class="ui list">
+                <% if(eList.length > 0){ %>
+                    <ul>
+                        <% for(var i=0; i < eList.length; i++) {%>
+                            <div class="item">
+                                <%= eList[i]['area'] %>
+                                    <%= eList[i]['code'] %>
+                            </div>
+                            <% } %>
+                    </ul>
+                    <% } else{ %>
+                        <div style="color: red" class="ui medium header">None Available</div>
+                        <% } %>
+            </div>
+            <div class="ui hidden divider"></div>
+            <form action="/enrollment">
+                <button class="ui button" style="background-color:black; color: white" type=submit>Back to Enrollment Home</button>
+            </form>
+        </div>
     </div>
-    <a href="/enrollment/">Back to Landing Page</a>
 </body>
 
 </html>

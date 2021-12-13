@@ -4,19 +4,27 @@
 <head></head>
 
 <body>
-    <div>
-        <h1>Course List</h1>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;ENROLLMENT SITE</div>
     </div>
-    <div>
-        <% if(courseList.length > 0){ %>
-            <ul>
-                <% for(var i=0; i < courseList.length; i++) {%>
-                   <li><%= courseList[i]['area'] %><%= courseList[i]['code'] %></li>
-                <% } %>
-            </ul>
-        <% } else{ %>
-            <div>Empty list.</div>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <div class="ui medium header">User List</div>Available courses to enroll into:</div>
+        <div class="ui list">
+            <% if(courseList.length > 0){ %>
+                <ul>
+                    <% for(var i=0; i < courseList.length; i++) {%>
+                        <div class="item">
+                            <%= courseList[i]['area'] %>
+                                <%= courseList[i]['code'] %>
+                        </div>
+                        <% } %>
+                </ul>
+                <% } else{ %>
+                    <div style="color: red" class=" ui medium header ">User List</div>No courses available.</div>
         <% } %>
+    </div>
+    </div>
     </div>
 </body>
 

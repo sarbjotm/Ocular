@@ -2,25 +2,32 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
 
 <body>
-    <div>
-        <h1>User List</h1>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;ADMINISTRAVIE SYSTEM</div>
     </div>
-    <div>
-        <% if(unapprovedList.length > 0){ %>
-            <div>
-                <%= unapprovedList %>
+    <div class="ui medium header">User List</div>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <div class="ui list">
+                <% if(unapprovedList.length > 0){ %>
+                    <div class="item">
+                        <%= unapprovedList %>
+                    </div>
+                    <% } else{ %>
+                        <div class="ui medium header">No pending users to approve.</div>
+                        <% } %>
             </div>
-            <% } else{ %>
-                <div>No pending users to approve.</div>
-                <% } %>
+            <form action="/users/admin/batch">
+                <button style="background-color: orange; color: white" class="ui button" type=submit>Register</button>
+            </form>
+        </div>
     </div>
-    <a href="/users/admin/batch">Batch Approve</a>
 </body>
 
 </html>

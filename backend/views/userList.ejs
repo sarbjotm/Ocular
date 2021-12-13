@@ -2,31 +2,39 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
 
 <body>
-    <div>
-        <h1>User List</h1>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;USER HOME</div>
     </div>
-    <div>
-        <% if(accList.length > 0){ %>
-            <ul>
-                <% for(var i=0; i < accList.length; i++) {%>
-                    <li>
-                        <%= accList[i]['username'] %>
-                    </li>
-                    <% } %>
-            </ul>
-            <% } else{ %>
-                <div>Empty list.</div>
-                <% } %>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <div class="ui list">
+                <% if(accList.length > 0){ %>
+                    <ul>
+                        <% for(var i=0; i < accList.length; i++) {%>
+                            <div class="item">
+                                <%= accList[i]['username'] %>
+                            </div>
+                            <% } %>
+                    </ul>
+                    <% } else{ %>
+                        <div class="ui medium header">User List</div>Empty list.</div>
+            <% } %>
+        </div>
+        <form action="/users/new">
+            <button class="ui button" style="background-color:blue; color:white" type=submit>Create Account</button>
+        </form>
+        <div class="ui hidden divider"></div>
+        <form action="/enrollment">
+            <button class="ui button" style="background-color:red; color: white" type=submit>Enroll</button>
+        </form>
     </div>
-    <a href="/users/new">Sign Up</a>
-    <div></div>
-    <a href="/enrollment">Enroll</a>
+    </div>
 
 </body>
 

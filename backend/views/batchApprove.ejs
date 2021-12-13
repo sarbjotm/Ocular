@@ -2,14 +2,24 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
 
 <body>
-    <h1>All pending users approved.</h1>
-    <a href="/users/admin">Back to admin homepage.</a>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;ADMINISTRAVIE SYSTEM</div>
+    </div>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <div class="ui medium header">All pending users approved.</div>
+            <div class="ui hidden divider"></div>
+            <form action="/users/admin">
+                <button class="ui primary button" type=submit>Back to Admin Home</button>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

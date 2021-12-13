@@ -2,20 +2,29 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
 
 <body>
-    <div>
-        <h1>ENROLLMENT LANDING PAGE</h1>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;ENROLLMENT SITE</div>
     </div>
-    <div>
-        Landing page to check enrollment backend progress.
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <div class="ui segment">
+                <p>Welcome to the enrollment home site. Here, you can check for a list of all available courses with open seats to enroll into, as well as a link to the enrollment site.</p>
+            </div>
+            <form action="/enrollment/list">
+                <button class="ui button" style="background-color:orange; color:white" type=submit>Available Courses</button>
+            </form>
+            <div class="ui hidden divider"></div>
+            <form action="/enrollment/enroll">
+                <button class="ui button" style="background-color:red; color: white" type=submit>Enroll</button>
+            </form>
+        </div>
     </div>
-    <p><a class="ui inverted red button" href="/enrollment/list">Check all available courses.</a></p>
-    <p><a class="ui inverted red button" href="/enrollment/enroll">Enroll in courses.</a></p>
 </body>
 
 </html>
