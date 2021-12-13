@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
@@ -15,12 +15,12 @@
 
     <form action="/enrollment/enroll" method="POST">
         <label for=" enrollment/enroll ">Choose a course area:</label>
-        <select class="area " id="course-area ">
+        <select id="course-area " class="ui fluid dropdown">
             <% for(var i=0; i < alist.length; i++) { %>
             <option><%= alist[i]['area'] %></option>
             <% } %>
         </select>
-        <select class="code " id="course-code ">
+        <select id="course-code " class="ui fluid dropdown">
             <% for(var i=0; i < clist.length; i++) { %>
             <option><%= clist[i]['code'] %></option>
             <% } %>
