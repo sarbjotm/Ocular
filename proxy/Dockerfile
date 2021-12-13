@@ -10,7 +10,7 @@ FROM nginx:latest
 # Helpful: https://www.docker.com/blog/how-to-use-the-official-nginx-docker-image/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Static files - React application
+COPY planner /planner
 COPY logout.js /static/logout.js
 
 # The command to run when the container starts (default for this image would be fine too):
