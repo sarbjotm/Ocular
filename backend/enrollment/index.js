@@ -43,7 +43,6 @@ async function enrollCheck(req, res) {
     // Getting and Parsing the required courses
     let prereqCourses = await db.query(prereqQuery, [courseID]);
     let coursesNeeded = prereqCourses.rows[0]["prerequisite"].split(", ");
-    console.log("coursesNeeded:",coursesNeeded);
 
     // Getting and Parsing the taken courses
     let prevUserCourses = await db.query(allUserCourses, [userID]);
@@ -53,7 +52,6 @@ async function enrollCheck(req, res) {
             coursesTaken.push(prevUserCourses.rows[i]["course_id"])
         }
     }
-    console.log("coursesTaken:",coursesTaken);
 
     if ( prereqCourses.rows[0]["prerequisite"] == ''){
         await db.query(enrollCourse, [userID, courseID, 2021, 3]);
@@ -62,11 +60,9 @@ async function enrollCheck(req, res) {
     
     for ( let i = 0 ; i < coursesNeeded.length ; i++){
         if ( coursesTaken.includes(coursesNeeded[i]) == false ){
-            console.log ( "MISSING " ,coursesNeeded[i] )
             return res.send("You are missing some prerequisite courses that are needed.");
         }
     }
-    console.log("prereq fulfilled")
     await db.query(enrollCourse, [userID, courseID, 2021, 3]);
     return res.send("You have the prerequisite courses needed. You have been enrolled");
 }
