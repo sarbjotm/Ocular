@@ -10,7 +10,13 @@
     <div>
         <% if(unapprovedList.length > 0){ %>
             <div>
-                <%= unapprovedList %>
+                <ul>
+                  <% for(var i=0; i < unapprovedList.length; i++) {%>
+                    <li>
+                      <%= unapprovedList[i]['username'] %>
+                    </li>
+                  <% } %>
+                </ul>
             </div>
             <% } else{ %>
                 <div>No pending users to approve.</div>
@@ -20,3 +26,5 @@
 </body>
 
 </html>
+
+
