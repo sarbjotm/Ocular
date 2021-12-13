@@ -2,9 +2,22 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+    <style>
+        .square {
+            color: black;
+            border-style: solid;
+            border-width: 5px;
+            width: 200px;
+            height: 200px;
+            text-align: center;
+            margin: 5px;
+            list-style-type: none;
+            display: inline-block;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,26 +26,35 @@
     </div>
     <div>
         <% if(calendarList.length > 0){ %>
+            <ul>
                 <% for(var i=0; i < calendarList.length; i++) { %>
-                   <%= calendarList[i]['area'] %><%= calendarList[i]['code'] %>
-                   <% var time_of_course  = ' ' %>
-                   <br>
-                <ul>
-                <% for(var j = 0; j < calendarList[i]['times'].length; j++) { %>
-                   <% if(calendarList[i]['times'].charAt(j) == ';') { %>
-                    <li><%= time_of_course %></li>
-                    <% time_of_course  = ' ' %>
+                    <li class="square">
+                        <h3>
+                            <%= calendarList[i]['course_id'] %>
+                        </h3>
+                        <% var time_of_course  = ' ' %>
+                            <% for(var j = 0; j < calendarList[i]['times'].length; j++) { %>
+                                <% if(calendarList[i]['times'].charAt(j) == ';') { %>
+                                    <p>
+                                        <%= time_of_course %>
+                                    </p>
+                                    <% time_of_course  = ' ' %>
+
+                                        <% } else{ %>
+                                            <% time_of_course = time_of_course + calendarList[i]['times'].charAt(j) %>
+                                                <% } %>
+                                                    <% } %>
+                                                        <p>
+                                                            <%= time_of_course %>
+                                                                <p>
+                    </li>
+
                     <br>
-                  <% } else{ %>
-                  <% time_of_course = time_of_course + calendarList[i]['times'].charAt(j) %>
-                  <% } %>
+                    <% } %>
+            </ul>
+            <% } else{ %>
+                <div>You are not enrolled in any classes.</div>
                 <% } %>
-                <li><%= time_of_course %></li>
-                </ul>
-                <br>
-        <% } } else{ %>
-            <div>You are not enrolled in any classes.</div>
-        <% } %>
     </div>
 </body>
 

@@ -6,8 +6,8 @@ let saltRounds = 10;
 const newAccountQuery = 'INSERT INTO users (username, password, email, type) VALUES ($1, $2, $3, $4);';
 const existingAccountQuery = 'SELECT username FROM users WHERE username=$1;';
 const listAccounts = 'SELECT username FROM users ORDER BY id ASC';
-const unapprovedAccounts = 'SELECT * FROM users WHERE is_approved = 0';
-const updateApproval = 'UPDATE users SET is_approved = 1 WHERE is_approved = 0';
+const unapprovedAccounts = 'SELECT * FROM users WHERE is_approved = false';
+const updateApproval = 'UPDATE users SET is_approved = 1 WHERE is_approved = false';
 const getGradesQuery = `SELECT 
     g.course_id AS cid, g.gpa AS gpa, g.year AS year, g.semester AS sem
     FROM users u, grades g

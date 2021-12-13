@@ -11,14 +11,18 @@
     <div class="ui sizer vertical segment">
         <div class="ui huge header">&ensp;ADMINISTRAVIE SYSTEM</div>
     </div>
-    <div class="ui medium header">User List</div>
     <div class="ui one column stackable center aligned page grid">
         <div class="column twelve wide">
+            <div class="ui medium header">User List</div>
             <div class="ui list">
                 <% if(unapprovedList.length > 0){ %>
-                    <div class="item">
-                        <%= unapprovedList %>
-                    </div>
+                    <ul>
+                        <% for(var i=0; i < unapprovedList.length; i++) {%>
+                            <div class="item">
+                                <%= unapprovedList[i]['username'] %>
+                            </div>
+                            <% } %>
+                    </ul>
                     <% } else{ %>
                         <div class="ui medium header">No pending users to approve.</div>
                         <% } %>
