@@ -8,14 +8,6 @@ const existingCourseQuery = 'SELECT course_id FROM courses WHERE course_id=$1;';
 const prereqQuery = 'SELECT prerequisite FROM courses WHERE course_id=$1;';
 const enrollCourse = 'INSERT INTO grades (user_id, course_id, year, semester) VALUES ($1, $2, $3,$4)'
 
-// id
-// user_id
-// course_id
-// gpa
-// letter
-// year
-// semester
-
 async function courseList(req, res) {
     let courseList = await db.query(allCourseNames);
     res.render("availableCourseList.ejs", { eList: courseList.rows });
@@ -77,10 +69,6 @@ async function enrollCheck(req, res) {
     console.log("prereq fulfilled")
     await db.query(enrollCourse, [userID, courseID, 2021, 3]);
     return res.send("You have the prerequisite courses needed. You have been enrolled");
-
-    
-
-    return res.send("POST works.")
 }
 
 module.exports = {
