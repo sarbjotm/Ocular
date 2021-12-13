@@ -5,7 +5,6 @@ function useSessions(app, passport, database) {
     app.use(session({
         store: new pgSession({
             pool: database.pool,
-            createTableIfMissing: true
         }),
         secret: process.env.COOKIE_SECRET,
         resave: false,
@@ -17,8 +16,18 @@ function useSessions(app, passport, database) {
         }
     }));
 
+    // for messages on the login page
+    // based on https://github.com/passport/express-4.x-local-example
+    app.use((req, res, next) => {
+        let msgs = req.session.messages || [];
+        res.locals.messages = msgs;
+        res.locals.hasMessages = !! msgs.length;
+        req.session.messages = [];
+        next();
+    });
+
     app.use(passport.initialize());
-    app.use(passport.session());
+    app.use(passport.authenticate('session'));
 }
 
 async function sessionToMetadata(req, res) {
