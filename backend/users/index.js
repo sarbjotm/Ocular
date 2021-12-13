@@ -5,6 +5,7 @@ let saltRounds = 10;
 
 const newAccountQuery = 'INSERT INTO users (username, password, email, type) VALUES ($1, $2, $3, $4);';
 const updateAccountQuery = 'UPDATE users SET password = $2 WHERE username=$1 AND email=$3;';
+const updatePasswordQuery = 'UPDATE users SET password = $2 WHERE username=$1;';
 const existingAccountQuery = 'SELECT username FROM users WHERE username=$1;';
 const existingEmailQuery = 'SELECT email FROM users WHERE email=$1;';
 const listAccounts = 'SELECT username FROM users ORDER BY id ASC';
@@ -83,7 +84,7 @@ function logout(req, res, callback) {
     });
 }
 
-async function resetPassword(req, res) {
+async function forgotPassword(req, res) {
     // Validate email
     // This is general, can replace with a specific-domain email or other policy
     const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -115,6 +116,32 @@ async function resetPassword(req, res) {
             }
             else{
             return res.send("Updated Password");
+            }
+        });
+    });
+}
+
+async function changePassword(req, res) {
+    // Validate username
+    // Validate password (special characters/length requirements)
+
+    //if (incorrect email/username entered)
+
+    // Check that existing account does match username
+    let accountAlreadyExists = await db.query(existingAccountQuery, [req.user.username]);
+    if (accountAlreadyExists.rows.length == 0) {
+        return res.send("Username does not exist in system");
+    }
+    // Generate salt and insert into database (for new password)
+    bcrypt.hash(req.body.password, saltRounds, (hashErr, hash) => {
+        if (hashErr) return res.send("Failed to hash");
+        db.query(updatePasswordQuery, [req.user.username, hash], (err, dbRes) => {
+            if (err) {
+                console.error(err);
+                return res.send("Something broke");
+            }
+            else{
+            return res.send("Changed Password");
             }
         });
     });
@@ -156,5 +183,6 @@ module.exports = {
     userList,
     adminValidate,
     batchVal,
-    resetPassword
+    forgotPassword,
+    changePassword
 }

@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@ts-graphviz/react": "^0.9.1",
-    "react": "^17.0.2"
-  }
-}
