@@ -3,25 +3,26 @@
 
 <head></head>
 
+<script>
+    function selectedCourse(element) {
+     element.value = element.options[element.selectedIndex].text;
+    }
+</script>
+
 <body>
 
     <h1>Course Enrollment</h1>
     <h2>Select the course you want to enroll in</h2>
 
-
     <form action="/enrollment/enroll" method="POST">
         <label for=" enrollment/enroll ">Choose a course area:</label>
-        <select class="area " id="course-area ">
+        <select class="course_id" id="course_select" onchange="selectedCourse(this)" name="course_id">
+            <option>--> Choose a Course <--</option>
             <% for(var i=0; i < alist.length; i++) { %>
-            <option><%= alist[i]['area'] %></option>
+            <option><%= alist[i]['course_id'] %></option>
             <% } %>
         </select>
-        <select class="code " id="course-code ">
-            <% for(var i=0; i < clist.length; i++) { %>
-            <option><%= clist[i]['code'] %></option>
-            <% } %>
-        </select>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Enroll">
     </form>
 
     <div></div>

@@ -1,12 +1,12 @@
 const db = require('../db');
 
 // SQL queries
-const allCourses = 'SELECT * FROM courses ORDER BY code::INTEGER ASC';
-const allCourseNames = 'SELECT area, code FROM courses ORDER BY code::INTEGER ASC';
-const allAreas = 'SELECT area FROM courses ORDER BY code::INTEGER ASC';
-const allCodes = 'SELECT code FROM courses ORDER BY code::INTEGER ASC';
+const allUserCourses = 'SELECT * FROM grades WHERE user_id=$1;';
+const allCourseNames = 'SELECT course_id FROM courses ORDER BY course_id;';
 const existingAccountQuery = 'SELECT username FROM users WHERE username=$1;';
-const existingCourseQuery = 'SELECT area, code FROM courses WHERE area=$1, code=$2';
+const existingCourseQuery = 'SELECT course_id FROM courses WHERE course_id=$1;';
+const prereqQuery = 'SELECT prerequisite FROM courses WHERE course_id=$1;';
+const enrollCourse = 'INSERT INTO grades (user_id, course_id, year, semester) VALUES ($1, $2, $3,$4)'
 
 async function courseList(req, res) {
     let courseList = await db.query(allCourseNames);
@@ -15,31 +15,56 @@ async function courseList(req, res) {
 }
 
 async function enrollRegister(req, res) {
-    let areaList = await db.query(allAreas);
-    let codeList = await db.query(allCodes);
+    let courseList = await db.query(allCourseNames);
 
     res.render("enrollRegister.ejs", {
-        alist: areaList.rows,
-        clist: codeList.rows
+        alist: courseList.rows
     });
     return;
 }
 
 async function enrollCheck(req, res) {
+    let userName = req.user.username;
+    let userID = req.user.id;
+    let courseID = req.body.course_id;
 
     // Validating username
-    let accountExists = await db.query(existingAccountQuery, [req.body.username]);
+    let accountExists = await db.query(existingAccountQuery, [userName]);
     if (accountExists.rows.length == 0) {
         return res.send("Error, user does not exist in the user database.");
     }
 
     // Validating course
-    let prereqCheck = await db.query(existingCourseQuery, [req.body.area, req.body.code]);
+    let prereqCheck = await db.query(existingCourseQuery, [courseID]);
     if (prereqCheck.rows.length == 0) {
         return res.send("Error, course does not exist in the course list.");
     }
 
-    //return res.send("POST works.")
+    // Getting and Parsing the required courses
+    let prereqCourses = await db.query(prereqQuery, [courseID]);
+    let coursesNeeded = prereqCourses.rows[0]["prerequisite"].split(", ");
+
+    // Getting and Parsing the taken courses
+    let prevUserCourses = await db.query(allUserCourses, [userID]);
+    let coursesTaken = [];
+    if (prevUserCourses.rows.length != 0 ){
+        for ( let i = 0 ; i < prevUserCourses.rows.length ; i++){
+            coursesTaken.push(prevUserCourses.rows[i]["course_id"])
+        }
+    }
+
+    if ( prereqCourses.rows[0]["prerequisite"] == ''){
+        await db.query(enrollCourse, [userID, courseID, 2021, 3]);
+        return res.send("No prerequisite courses needed. You have been enrolled");
+    }
+    
+    for ( let i = 0 ; i < coursesNeeded.length ; i++){
+        if ( coursesTaken.includes(coursesNeeded[i]) == false ){
+            return res.send("You are missing some prerequisite courses that are needed.");
+        }
+    }
+    await db.query(enrollCourse, [userID, courseID, 2021, 3]);
+    return res.send("You have the prerequisite courses needed. You have been enrolled");
 }
 
 module.exports = {

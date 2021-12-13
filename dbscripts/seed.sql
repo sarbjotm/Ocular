@@ -38,7 +38,7 @@ CREATE TABLE grades (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT,
     -- Alternative: ID to specific offering of course (section/year)
-    course_id BIGINT,
+    course_id VARCHAR,
     gpa DECIMAL(4, 2),
     letter VARCHAR(5),
     year BIGINT,
@@ -47,11 +47,9 @@ CREATE TABLE grades (
 );
 
 CREATE TABLE courses (
-    area VARCHAR(4),
-    code VARCHAR(4),
+    course_id VARCHAR PRIMARY KEY,
     prerequisite VARCHAR,
-    times VARCHAR,
-    PRIMARY KEY (area, code)
+    times VARCHAR
 );
 
 CREATE TEMP TABLE temp_courses (
@@ -59,8 +57,8 @@ CREATE TEMP TABLE temp_courses (
 ) ON COMMIT DROP;
 COPY temp_courses FROM '/docker-entrypoint-initdb.d/courses.json';
 
-INSERT INTO courses (area, code, prerequisite, times)
-SELECT json_val->>'area' AS area, json_val->>'code' AS code, json_val->>'prerequisite' AS prerequisite, json_val->>'times' AS times  FROM (
+INSERT INTO courses (course_id, prerequisite, times)
+SELECT json_val->>'course_id' AS course_id, json_val->>'prerequisite' AS prerequisite, json_val->>'times' AS times  FROM (
     SELECT json_array_elements(json_val::json) AS json_val FROM temp_courses
 ) AS sq;
 
