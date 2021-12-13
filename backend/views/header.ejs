@@ -1,0 +1,12 @@
+<header>
+    <ul>
+        <% if(type === 1) { %>
+            <li><a href="/users/admin">Admin Console</a></li>
+        <% } %>
+        <li><a href="/calendar">Calendar</a></li>
+        <li><a href="/courses">All Courses</a></li>
+        <li><a href="/planner/">Course Tree</a></li>
+        <li><a href="/enrollment">Enrollment</a></li>
+        <li><%- include('logout'); %></li>
+    </ul>
+</header>
