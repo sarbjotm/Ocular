@@ -12,11 +12,14 @@ router.get('/new', (req, res) => {
 router.post('/new', users.createAccount);
 
 router.get('/login', (req, res) => {
-    res.render('login');
+    if (req.user) {
+        return res.redirect('/users/profile');
+    }
+    return res.render('login');
 });
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-    res.send("Logged in");
+    res.redirect('/users/profile');
 });
 
 router.get('/reset', (req, res) => {
@@ -24,10 +27,6 @@ router.get('/reset', (req, res) => {
 });
 
 router.post('/reset', users.resetPassword);
-
-router.get('/restricted', accessControl.requiresLogin, (req, res) => {
-    res.send("This is a protected resource!");
-});
 
 // Admin authentication
 router.get('/admin', accessControl.requiresAdmin, users.adminValidate);

@@ -9,14 +9,21 @@
     </div>
     <div>
         <% if(accList.length > 0){ %>
-            <div>
-                <%= accList %>
-            </div>
+            <ul>
+                <% for(var i=0; i < accList.length; i++) {%>
+                    <li>
+                        <%= accList[i]['username'] %>
+                    </li>
+                    <% } %>
+            </ul>
             <% } else{ %>
                 <div>Empty list.</div>
                 <% } %>
     </div>
-    <a href="/users/newuser">Sign Up</a>
+    <a href="/users/new">Sign Up</a>
+    <div></div>
+    <a href="/enrollment">Enroll</a>
+
 </body>
 
 </html>
