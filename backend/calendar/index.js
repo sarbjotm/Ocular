@@ -1,5 +1,5 @@
 const db = require('../db');
-const coursesQuery = 'SELECT * FROM courses WHERE code::INTEGER BETWEEN 100 AND 121';
+const coursesQuery = 'SELECT * FROM courses';
 
 
 async function calendarList(req, res) {
