@@ -18,9 +18,11 @@ router.get('/login', (req, res) => {
     return res.render('login');
 });
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
-    res.redirect('/users/profile');
-});
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/users/profile',
+    failureRedirect: '/users/login',
+    failureMessage: true
+}));
 
 // Admin authentication
 router.get('/admin', accessControl.requiresAdmin, users.adminValidate);
