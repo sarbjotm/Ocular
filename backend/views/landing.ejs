@@ -14,6 +14,7 @@
             <li><a href="/calendar">Calendar</a></li>
             <li><a href="/courses">All Courses</a></li>
             <li><a>Planner</a></li>
+            <li><button onclick="logout()">Logout</button></li>
         </ul>
     </header>
     <h1><%= username %>'s Course Information</h1>
@@ -57,7 +58,16 @@
     <script>
         let username = "<%= username %>";
         localStorage.setItem("username", username);
-    </script>        
+    </script>
+    <!--
+    <script>
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/users/logout';
+        }
+    </script>
+    -->
+    <script src="/static/logout.js"/>        
 </body>
 
 </html>
