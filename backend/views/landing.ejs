@@ -6,22 +6,13 @@
 </head>
 
 <body>
-    <header>
-        <ul>
-            <% if(type === 1) { %>
-                <li><a href="/users/admin">Admin Console</a></li>
-            <% } %>
-            <li><a href="/calendar">Calendar</a></li>
-            <li><a href="/courses">All Courses</a></li>
-            <li><a>Planner</a></li>
-        </ul>
-    </header>
+    <%- include('header', {type: type}); %>
     <h1><%= username %>'s Course Information</h1>
     <section>
         <p>Date of registration: 01/01/2011</p>
         <p>Total credits: 100</p>
     </section> 
-
+    
     <!--
         Semester Year-sem
         Course A: subject area, code, GPA, credits
@@ -57,7 +48,8 @@
     <script>
         let username = "<%= username %>";
         localStorage.setItem("username", username);
-    </script>        
+    </script>
+          
 </body>
 
 </html>
