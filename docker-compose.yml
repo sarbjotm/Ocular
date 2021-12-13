@@ -12,8 +12,8 @@ services:
       - 8080:80
   
   # frontend development environment
-  reference: https://mherman.org/blog/dockerizing-a-react-app/
-  TODO: setup production
+  # reference: https://mherman.org/blog/dockerizing-a-react-app/
+  # TODO: setup production
   react:
     build:
       context: ./frontend
