@@ -1,7 +1,7 @@
 const db = require('../db');
 
 const coursesQuery = 'SELECT * FROM courses;';
-const prerequisiteQuery = 'SELECT prerequisite FROM courses WHERE area=$1 AND code=$2;';
+const prerequisiteQuery = 'SELECT prerequisite FROM courses WHERE course_id=$1;';
 
 async function courseList(req, res) {
     let coursesQueryResult = await db.query(coursesQuery);
@@ -12,15 +12,14 @@ async function courseList(req, res) {
 async function getCoursePrerequisite(req, res) {
     let area = req.params.area;
     let code = req.params.code;
+    let composed = area + " " + code;
 
-    let prerequisiteQueryResult = await db.query(prerequisiteQuery, [area, code]);
+    let prerequisiteQueryResult = await db.query(prerequisiteQuery, [composed]);
     if (!prerequisiteQueryResult.rows.length) {
-        res.status(404).send("Course cannot be found in system.");
-        return;
+        return res.status(404).send("Course cannot be found in system.");
     }
 
-    res.json(prerequisiteQueryResult.rows[0]);
-    return
+    return res.json(prerequisiteQueryResult.rows[0]);
 }
 
 module.exports = {
