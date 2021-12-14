@@ -24,6 +24,18 @@ router.post('/login', passport.authenticate('local', {
     failureMessage: true
 }));
 
+router.get('/reset', (req, res) => {
+    res.render('reset');
+});
+
+router.post('/reset', users.forgotPassword);
+
+router.get('/pchange', (req, res) => {
+    res.render('pchange');
+});
+
+router.post('/pchange', users.changePassword);
+
 // Admin authentication
 router.get('/admin', accessControl.requiresAdmin, users.adminValidate);
 router.post('/admin/batch', accessControl.requiresAdmin, users.batchVal);
