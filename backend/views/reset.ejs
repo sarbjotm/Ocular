@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <head>
 
-    </head>
-    <body>
-        <form id="reset" method="POST" action="/users/reset">
-            <label for="username">Username</label>
-            <input type="text" name="username" required />
-            <label for="password">New Password</label>
-            <input type="password" name="password" required />
-            <label for="email">Email</label>
-            <input type="email" name="email" required />
-            <input type="submit" value="Reset Password" />
-        </form>
-    </body>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+</head>
+
+<body>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;PASSWORD RESET</div>
+    </div>
+
+    <div class="ui hidden divider"></div>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <form id="reset" method="POST" action="/users/reset" class="ui form">
+                <div class="field">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" required />
+                </div>
+                <div class="field">
+                    <label for="password">New Password</label>
+                    <input type="password" name="password" required />
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" required />
+                </div>
+                <button class="ui primary button" type="submit">Reset Password</button>
+            </form>
+        </div>
+    </div>
+</body>
+
 </html>

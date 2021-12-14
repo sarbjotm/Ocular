@@ -30,24 +30,22 @@
             <form action="/users/new">
                 <button style="background-color:#FFD700; color: black" class="ui button" type=submit>Register</button>
             </form>
+            <div class="ui hidden divider"></div>
             <form action="/users/reset">
                 <button style="background-color:red; color: white" class="ui button" type=submit>Forgot Password?</button>
             </form>
         </div>
         <div class="ui hidden divider"></div>
 
-        <% if (hasMessages) { %>
-            <div class="ui bottom attached warning message">
-                <% messages.forEach(function(message) { %>
-                    <i class="icon help"></i>
-                    <p>
-                        <%= message %>
-                    </p>
-                    <% }); %>
-            </div>
-            <% } %>
-
     </div>
+
+    <% if (hasMessages) { %>
+        <% messages.forEach(function(message) { %>
+            <p style="color: red; text-align: center;">
+                <%= message %>
+            </p>
+            <% }); %>
+                <% } %>
 
 </body>
 
