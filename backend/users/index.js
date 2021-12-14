@@ -69,7 +69,10 @@ async function createAccount(req, res) {
 
     // Generate salt and insert into database
     bcrypt.hash(req.body.password, saltRounds, (hashErr, hash) => {
-        if (hashErr) return res.send("Failed to hash");
+        if (hashErr) return res.render("error.ejs", {
+            message: "Could not create new account (please contact an admin for assistance).",
+            logged_in: false
+        });
         db.query(newAccountQuery, [req.body.username, hash, req.body.email, studentCode], (err, dbRes) => {
             if (err) {
                 console.error(err);
@@ -78,7 +81,11 @@ async function createAccount(req, res) {
                     logged_in: false
                 });
             }
-            return res.send("Created new user");
+            return res.render("success.ejs", {
+                message: `New user ${req.body.username} created.`,
+                location: "/",
+                link_description: "Back to the login screen."
+            });
         });
     });
 }
@@ -126,7 +133,10 @@ async function forgotPassword(req, res) {
     }
     // Generate salt and insert into database (for new password)
     bcrypt.hash(req.body.password, saltRounds, (hashErr, hash) => {
-        if (hashErr) return res.send("Failed to hash");
+        if (hashErr) return res.render("error.ejs", {
+            message: "Password reset was unsuccessful (please contact an admin for assistance).",
+            logged_in: false
+        });
         db.query(updateAccountQuery, [req.body.username, hash, req.body.email], (err, dbRes) => {
             if (err) {
                 console.error(err);
@@ -135,7 +145,11 @@ async function forgotPassword(req, res) {
                     logged_in: false
                 });
             } else {
-                return res.send("Updated Password");
+                return res.render("success.ejs", {
+                    message: "Password change successful.",
+                    location: "/",
+                    link_description: "Back to the main menu."
+                });
             }
         });
     });
@@ -157,7 +171,10 @@ async function changePassword(req, res) {
     }
     // Generate salt and insert into database (for new password)
     bcrypt.hash(req.body.password, saltRounds, (hashErr, hash) => {
-        if (hashErr) return res.send("Failed to hash");
+        if (hashErr) return res.render("error.ejs", {
+            message: "Could not create new account (please contact an admin for assistance).",
+            logged_in: false
+        });
         db.query(updatePasswordQuery, [req.user.username, hash], (err, dbRes) => {
             if (err) {
                 console.error(err);
@@ -166,7 +183,11 @@ async function changePassword(req, res) {
                     logged_in: false
                 });
             } else {
-                return res.send("Changed Password");
+                return res.render("success.ejs", {
+                    message: "Password successfully changed.",
+                    location: "/",
+                    link_description: "Back to the login page."
+                });;
             }
         });
     });

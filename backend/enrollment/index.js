@@ -62,7 +62,11 @@ async function enrollCheck(req, res) {
     if ( prereqCourses.rows[0]["prerequisite"] == ''){
         try {
             await db.query(enrollCourse, [userID, courseID, 2021, 3]);
-            return res.send("No prerequisite courses needed. You have been enrolled");
+            return res.render("success.ejs", {
+                message: "No prerequisite courses needed. You have been enrolled.",
+                location: "/",
+                link_description: "Back to the main menu."
+            });
         } catch (err) {
             return res.render("error.ejs", {
                 message: "Error: You are already enrolled for the same course this year and semester.",
@@ -81,7 +85,11 @@ async function enrollCheck(req, res) {
     }
     try {
         await db.query(enrollCourse, [userID, courseID, 2021, 3]);
-        return res.send("You have the prerequisite courses needed. You have been enrolled");
+        return res.render("success.ejs", {
+            message: "You have the necessary prerequisite courses. You have been enrolled.",
+            location: "/",
+            link_description: "Back to the main menu."
+        });
     } catch (err) {
         return res.render("error.ejs", {
             message: "Error: You are already enrolled for the same course this year and semester.",
