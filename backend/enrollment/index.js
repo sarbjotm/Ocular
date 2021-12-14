@@ -31,13 +31,19 @@ async function enrollCheck(req, res) {
     // Validating username
     let accountExists = await db.query(existingAccountQuery, [userName]);
     if (accountExists.rows.length == 0) {
-        return res.send("Error, user does not exist in the user database.");
+        return res.render("error.ejs",  {
+            message: "Error, user does not exist in the user database.",
+            logged_in: true
+        });
     }
 
     // Validating course
     let prereqCheck = await db.query(existingCourseQuery, [courseID]);
     if (prereqCheck.rows.length == 0) {
-        return res.send("Error, course does not exist in the course list.");
+        return res.render("error.ejs", {
+            message: "Error, course does not exist in the course list.",
+            logged_in: true,
+        });
     }
 
     // Getting and Parsing the required courses
@@ -60,7 +66,10 @@ async function enrollCheck(req, res) {
     
     for ( let i = 0 ; i < coursesNeeded.length ; i++){
         if ( coursesTaken.includes(coursesNeeded[i]) == false ){
-            return res.send("You are missing some prerequisite courses that are needed.");
+            return res.render("error.ejs", {
+                message: "You are missing some prerequisite courses that are needed.",
+                logged_in: true,
+            });
         }
     }
     await db.query(enrollCourse, [userID, courseID, 2021, 3]);
