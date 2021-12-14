@@ -2,54 +2,77 @@
 <html>
 
 <head>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
 
 <body>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;WELCOME,
+            <%= username %>!
+        </div>
+    </div>
+
     <%- include('header', {type: type}); %>
-    <h1><%= username %>'s Course Information</h1>
-    <section>
-        <p>Date of registration: 01/01/2011</p>
-        <p>Total credits: 100</p>
-    </section> 
-    
-    <!--
+        <div class="ui medium header">
+            <%= username %>'s Course Information</div>
+        <div class="ui raised segment">
+            <p>Date of registration: 01/01/2011</p>
+            <p>Total credits: 100</p>
+        </div>
+        <!--
         Semester Year-sem
         Course A: subject area, code, GPA, credits
         TODO: convert course ID to course name/code
     -->
-    <section>
-        <% if(Object.keys(courses).length > 0){ %>
-            <h1>Course Records</h1>
-            <ul>
-            <% Object.keys(courses).forEach(function(year) {%>
-                <li>
-                    <h2><%= year %></h2>
-                    <ul>
-                    <% Object.keys(courses[year]).forEach(function(sem) {%>
-                        <li>
-                            <h3><%= sem %></h3>
+        <div class="ui one column stackable center aligned page grid">
+            <div class="column five wide">
+                <div class="ui segment">
+                    <% if(Object.keys(courses).length > 0){ %>
+                        <div class="ui medium header">Course Records</div>
+                        <div class="ui list">
                             <ul>
-                            <% courses[year][sem].forEach(function(course) {%>
-                                <li><%= course.id %> <%= course.gpa%></li>
-                                <% }); %>
+                                <% Object.keys(courses).forEach(function(year) {%>
+                                    <li>
+                                        <div class="ui small header">
+                                            <%= year %>
+                                        </div>
+                                        <ul>
+                                            <% Object.keys(courses[year]).forEach(function(sem) {%>
+                                                <li>
+                                                    <div class="ui tiny header">
+                                                        <%= sem %>
+                                                    </div>
+                                                    <ul>
+                                                        <% courses[year][sem].forEach(function(course) {%>
+                                                            <li>
+                                                                <div class="ui small header">
+                                                                    <%= course.id %>
+                                                                        <%= course.gpa%>
+                                                                </div>
+                                                            </li>
+                                                            <% }); %>
+                                                    </ul>
+                                                </li>
+                                                <% }); %>
+                                        </ul>
+                                    </li>
+                                    <% }); %>
                             </ul>
-                        </li>
-                    <% }); %>   
-                    </ul>
-                </li>
-            <% }); %>
-            </ul>
-        <% } else{ %>
-            <p>No enrolled or completed courses on record.</p>
-        <% } %>
-    </section>
+                            <% } else{ %>
+                                <div class="ui medium header">No enrolled or completed courses on record.</div>
+                                <% } %>
+                        </div>
+                </div>
+            </div>
+        </div>
 
-    <script>
-        let username = "<%= username %>";
-        localStorage.setItem("username", username);
-    </script>
-          
+        <script>
+            let username = "<%= username %>";
+            localStorage.setItem("username", username);
+        </script>
+
 </body>
 
 </html>

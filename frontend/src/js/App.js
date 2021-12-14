@@ -3,37 +3,21 @@ import React, { useState } from "react";
 import '../css/App.css';
 
 import { Tree } from './prereq-tree/Tree';
-import { Enrolment } from './enrollment/Enrolment';
 
 function App() {
-  const [view, setView] = useState("tree");
-
-  const headerComponent = () => {
-    return (
-      <>
-        <button onClick={() => {setView("tree")}}>Prerequisite Tree</button>
-        <button onClick={() => {setView("enrolment")}}>Enrolment</button>
-      </>
-    );
-  }
-
-  const viewComponent = () => {
-    switch(view) {
-      case "tree":
-        return <Tree />;
-      case "enrolment":
-        return <Enrolment />;
-      default:
-        return <Tree />;
-    }
-  }
-
   return (
-    <div className="App">
-      <div className="header">{headerComponent()}</div>
-      <br/>
-      <div className="view">{viewComponent()}</div>
-    </div>
+    <>
+      <div className="App-header">
+        <a href="/calendar" className="ui button">Calendar</a>
+        <a href="/courses" className="ui button">All Courses</a>
+        <a href="/planner/" className="ui button">Course Tree</a>
+        <a href="/enrollment" className="ui button">Enrollment</a>
+      </div>
+      <div className="App">
+        <h1>Course Tree</h1>
+        <div className="view"><Tree /></div>
+      </div>
+    </>
   );
 }
 

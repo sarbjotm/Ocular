@@ -20,6 +20,7 @@ const enrollmentRouter = require('./enrollment/routes');
 app.set('trust proxy', 1);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+app.use(express.static("public"));
 
 // for development only (view prototyping)
 app.set('views', path.join(process.cwd(), 'views'));

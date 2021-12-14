@@ -1,17 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head>
 
-    </head>
-    <body>
-        <form id="create-user" method="POST" action="/users/new">
-            <label for="username">Username</label>
-            <input type="text" name="username" required />
-            <label for="password">Password</label>
-            <input type="password" name="password" required />
-            <label for="email">Email</label>
-            <input type="email" name="email" required />
-            <input type="submit" value="Create User" />
-        </form>
-    </body>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+</head>
+
+<body>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;REGISTER</div>
+    </div>
+    <div class="ui hidden divider"></div>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <form id="create-user" method="POST" action="/users/new" class="ui form">
+                <div class="field">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" required />
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" required />
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" required />
+                </div>
+                <div class="ui hidden divider"></div>
+                <button class="ui primary button" type="submit">Create Account</button>
+            </form>
+            <div class="ui hidden divider"></div>
+            <div class="ui bottom attached warning message">
+                <i class="icon help"></i> Already signed up? <a href="/users/login">Login here</a> instead.
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
