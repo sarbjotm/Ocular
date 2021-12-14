@@ -26,8 +26,14 @@
                         <div class="ui medium header">User List</div>Empty list.</div>
             <% } %>
         </div>
+        <form action="/users/profile">
+            <button class="ui button" style="background-color:black; color: white" type=submit>Dashboard</button>
+        </form>
+        <form action="/users/login">
+            <button class="ui button" style="background-color:blue; color:white" type=submit>Login</button>
+        </form>
         <form action="/users/new">
-            <button class="ui button" style="background-color:blue; color:white" type=submit>Create Account</button>
+            <button class="ui button" style="background-color:yellow; color:black" type=submit>Create Account</button>
         </form>
         <div class="ui hidden divider"></div>
         <form action="/enrollment">
