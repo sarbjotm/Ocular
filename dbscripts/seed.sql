@@ -47,7 +47,9 @@ CREATE TABLE grades (
     letter VARCHAR(5),
     year BIGINT,
     semester BIGINT,
-    FOREIGN KEY (user_id) REFERENCES users ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users ON DELETE CASCADE,
+    -- prevent double enrollment in a single semester
+    UNIQUE (user_id, course_id, year, semester)
 );
 
 CREATE TABLE courses (
