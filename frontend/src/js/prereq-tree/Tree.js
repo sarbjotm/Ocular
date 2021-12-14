@@ -10,24 +10,31 @@ export const Tree = () => {
     const [term, setTerm] = useState("fall");
     const [year, setYear] = useState("2021");
     const [subject, setSubject] = useState("cmpt");
-    const [code, setCode] = useState("470");
+    const [code, setCode] = useState("300");
     const [treeData, setTreeData] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
 
     async function loadPrereqTree() {
         setIsLoading(true);
+        setNotFound(false);
 
         var searchedCourse = [];
         var courseToBeSearched = [];
         var connection = "";
 
         const prereqLine = await fetchPrereqFromHTML(term, year, subject, code);
-        baseCourses["COURSE_CODE"].forEach(baseCourse => {
-            if (prereqLine.includes(baseCourse)) { // add all prereq courses into search queue
-                courseToBeSearched.push(baseCourse);
-                connection += `${subject.toUpperCase()}${code.toUpperCase()} -> ${baseCourse.replace(/\s/g, "")};\n`; // whitespace between subject and code needs to be removed before plotting
-            }
-        });
+        if (prereqLine.length === 0) {
+            setNotFound(true);
+        }
+        else {
+            baseCourses["COURSE_CODE"].forEach(baseCourse => {
+                if (prereqLine.includes(baseCourse)) { // add all prereq courses into search queue
+                    courseToBeSearched.push(baseCourse);
+                    connection += `${subject.toUpperCase()}${code.toUpperCase()} -> ${baseCourse.replace(/\s/g, "")};\n`; // whitespace between subject and code needs to be removed before plotting
+                }
+            });
+        }        
 
         searchedCourse.push(`${subject.toUpperCase()} ${code.toUpperCase()}`);
         // console.log("courseToBeSearched", courseToBeSearched);
@@ -36,6 +43,7 @@ export const Tree = () => {
         while (courseToBeSearched.length) {
             let course = courseToBeSearched[0];
             const prereqLine = await fetchPrereqFromHTML(term, year, course.split(" ")[0].toLowerCase(), course.split(" ")[1].toLowerCase());
+            
             baseCourses["COURSE_CODE"].forEach(baseCourse => {
                 if (prereqLine.includes(baseCourse) && searchedCourse.indexOf(baseCourse) === -1) { // add all prereq courses that haven't been searched into search queue
                     courseToBeSearched.push(baseCourse);
@@ -48,10 +56,11 @@ export const Tree = () => {
             // console.log("courseToBeSearched", courseToBeSearched);
             // console.log("searchedCourse", searchedCourse);
         }
-
+        if (!notFound) {
+            let data = `digraph {${connection}}`;
+            setTreeData(data);
+        }
         // console.log(connection);
-        let data = `digraph {${connection}}`;
-        setTreeData(data);
         setIsLoading(false);
     }
 
@@ -63,7 +72,7 @@ export const Tree = () => {
         loadPrereqTree();
     }
 
-    return(
+    return (
         <>
             <div>
                 <div className="ui two column stackable grid">
@@ -100,7 +109,9 @@ export const Tree = () => {
                         </div>
                     </div>
                     <div className="middle aligned column">
-                    {isLoading ? "Loading..." : <Graphviz dot={treeData} />}
+                        {isLoading ? "Loading..." :
+                            (notFound ? <div>This course is not in the system, try another one.</div> : <Graphviz dot={treeData} />)
+                        }
                     </div>
                 </div>
                 <div className="ui vertical divider" />

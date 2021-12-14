@@ -4,9 +4,11 @@ export async function fetchPrereqFromHTML(term, year, subject, code) {
     try {
         const response = await fetch(`/courses/info/${subject.toUpperCase()}/${code.toUpperCase()}`);
         // console.log(response);
-        const data = await response.json();
-        // console.log(data);
-        prereqLine = data["prerequisite"];
+        if (response.status === 200) {
+            const data = await response.json();
+            // console.log(data);
+            prereqLine = data["prerequisite"];
+        }
     } catch (error) {
         console.error(error);
     }

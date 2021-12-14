@@ -50,7 +50,10 @@ async function createAccount(req, res) {
     // This is general, can replace with a specific-domain email or other policy
     const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
     if (!emailRegex.test(req.body.email)) {
-        return res.send("Email is not valid.");
+        return res.render("error.ejs", {
+            message: "Email is not valid.",
+            logged_in: false,
+        });
     }
     // Validate username
     // Validate password (special characters/length requirements)
@@ -58,18 +61,31 @@ async function createAccount(req, res) {
     // Check that no existing account matches email/username
     let accountAlreadyExists = await db.query(existingAccountQuery, [req.body.username]);
     if (accountAlreadyExists.rows.length > 0) {
-        return res.send("Username already exists in system.");
+        return res.render("error.ejs", {
+            message: "Username already exists in system.",
+            logged_in: false
+        });
     }
 
     // Generate salt and insert into database
     bcrypt.hash(req.body.password, saltRounds, (hashErr, hash) => {
-        if (hashErr) return res.send("Failed to hash");
+        if (hashErr) return res.render("error.ejs", {
+            message: "Could not create new account (please contact an admin for assistance).",
+            logged_in: false
+        });
         db.query(newAccountQuery, [req.body.username, hash, req.body.email, studentCode], (err, dbRes) => {
             if (err) {
                 console.error(err);
-                return res.send("Something broke");
+                return res.render("error.ejs", {
+                    message: "Could not create new account (please contact an admin for assistance).",
+                    logged_in: false
+                });
             }
-            return res.send("Created new user");
+            return res.render("success.ejs", {
+                message: `New user ${req.body.username} created.`,
+                location: "/",
+                link_description: "Back to the login screen."
+            });
         });
     });
 }
@@ -89,7 +105,10 @@ async function forgotPassword(req, res) {
     // This is general, can replace with a specific-domain email or other policy
     const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
     if (!emailRegex.test(req.body.email)) {
-        return res.send("Email is not valid.");
+        return res.render("error.ejs", {
+            message: "Email is not valid.",
+            logged_in: false,
+        });
     }
     // Validate username
     // Validate password (special characters/length requirements)
@@ -99,22 +118,38 @@ async function forgotPassword(req, res) {
     // Check that existing account does match username
     let accountAlreadyExists = await db.query(existingAccountQuery, [req.body.username]);
     if (accountAlreadyExists.rows.length == 0) {
-        return res.send("Username does not exist in system");
+        return res.render("error.ejs", {
+            message: "Username does not exist in system.",
+            logged_in: false
+        });
     }
     // Check that existing account does match email
     let emailAlreadyExists = await db.query(existingEmailQuery, [req.body.email]);
     if (emailAlreadyExists.rows.length == 0) {
-        return res.send("Please provide all details correctly...");
+        return res.render("error.ejs", {
+            message: "Please provide all details (username, email) correctly.",
+            logged_in: false
+        });
     }
     // Generate salt and insert into database (for new password)
     bcrypt.hash(req.body.password, saltRounds, (hashErr, hash) => {
-        if (hashErr) return res.send("Failed to hash");
+        if (hashErr) return res.render("error.ejs", {
+            message: "Password reset was unsuccessful (please contact an admin for assistance).",
+            logged_in: false
+        });
         db.query(updateAccountQuery, [req.body.username, hash, req.body.email], (err, dbRes) => {
             if (err) {
                 console.error(err);
-                return res.send("Something broke");
+                return res.render("error.ejs", {
+                    message: "Password reset was unsuccessful (please contact an admin for assistance).",
+                    logged_in: false
+                });
             } else {
-                return res.send("Updated Password");
+                return res.render("success.ejs", {
+                    message: "Password change successful.",
+                    location: "/",
+                    link_description: "Back to the main menu."
+                });
             }
         });
     });
@@ -129,17 +164,30 @@ async function changePassword(req, res) {
     // Check that existing account does match username
     let accountAlreadyExists = await db.query(existingAccountQuery, [req.user.username]);
     if (accountAlreadyExists.rows.length == 0) {
-        return res.send("Username does not exist in system");
+        return res.render("error.ejs", {
+            message: "Username does not exist in system.",
+            logged_in: false
+        });
     }
     // Generate salt and insert into database (for new password)
     bcrypt.hash(req.body.password, saltRounds, (hashErr, hash) => {
-        if (hashErr) return res.send("Failed to hash");
+        if (hashErr) return res.render("error.ejs", {
+            message: "Could not create new account (please contact an admin for assistance).",
+            logged_in: false
+        });
         db.query(updatePasswordQuery, [req.user.username, hash], (err, dbRes) => {
             if (err) {
                 console.error(err);
-                return res.send("Something broke");
+                return res.render("error.ejs", {
+                    message: "Password change was unsuccessful (please contact an admin for assistance).",
+                    logged_in: false
+                });
             } else {
-                return res.send("Changed Password");
+                return res.render("success.ejs", {
+                    message: "Password successfully changed.",
+                    location: "/",
+                    link_description: "Back to the login page."
+                });;
             }
         });
     });

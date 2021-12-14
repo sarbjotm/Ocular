@@ -5,11 +5,11 @@ const passport = require('passport');
 
 router.get('/', users.userList);
 
-router.get('/new', (req, res) => {
+router.get('/new', accessControl.requiresNotLoggedIn, (req, res) => {
     res.render('newuser');
 });
 
-router.post('/new', users.createAccount);
+router.post('/new', accessControl.requiresNotLoggedIn, users.createAccount);
 
 router.get('/login', (req, res) => {
     if (req.user) {
@@ -24,17 +24,17 @@ router.post('/login', passport.authenticate('local', {
     failureMessage: true
 }));
 
-router.get('/reset', (req, res) => {
+router.get('/reset', accessControl.requiresNotLoggedIn, (req, res) => {
     res.render('reset');
 });
 
-router.post('/reset', users.forgotPassword);
+router.post('/reset', accessControl.requiresNotLoggedIn, users.forgotPassword);
 
-router.get('/pchange', (req, res) => {
+router.get('/pchange', accessControl.requiresLogin, (req, res) => {
     res.render('pchange');
 });
 
-router.post('/pchange', users.changePassword);
+router.post('/pchange', accessControl.requiresLogin, users.changePassword);
 
 // Admin authentication
 router.get('/admin', accessControl.requiresAdmin, users.adminValidate);

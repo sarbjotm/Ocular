@@ -34,6 +34,10 @@ CREATE TABLE users (
 
 CREATE INDEX users_username ON users (username);
 
+INSERT INTO users (username, password, email, type, is_approved) VALUES
+    ('admin', '$2b$10$cT1K92vTsxcVaevWgYUMAenRdoGSnFeVPnoHk/1v45/d9PGbrKuqa', 'admin@test.com', 1, true),
+    ('student', '$2b$10$wo9u8pYYdPIBwsnZPXmQQuG32m./LV8mJm6ncYBHx8s4HL4faT6Da', 'student@test.com', 3, true);
+
 CREATE TABLE grades (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT,
@@ -43,7 +47,9 @@ CREATE TABLE grades (
     letter VARCHAR(5),
     year BIGINT,
     semester BIGINT,
-    FOREIGN KEY (user_id) REFERENCES users ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users ON DELETE CASCADE,
+    -- prevent double enrollment in a single semester
+    UNIQUE (user_id, course_id, year, semester)
 );
 
 CREATE TABLE courses (

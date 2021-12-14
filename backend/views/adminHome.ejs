@@ -9,7 +9,7 @@
 
 <body>
     <div class="ui sizer vertical segment">
-        <div class="ui huge header">&ensp;ADMINISTRAVIE SYSTEM</div>
+        <div class="ui huge header">&ensp;ADMINISTRATIVE SYSTEM</div>
     </div>
     <div class="ui one column stackable center aligned page grid">
         <div class="column twelve wide">
@@ -27,7 +27,7 @@
                         <div class="ui medium header">No pending users to approve.</div>
                         <% } %>
             </div>
-            <form action="/users/admin/batch">
+            <form method="post" action="/users/admin/batch">
                 <button style="background-color: orange; color: white" class="ui button" type=submit>Register</button>
             </form>
         </div>

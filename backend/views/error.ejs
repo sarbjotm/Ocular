@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <p><%= message %></p>
+        <a href="/">
+            <% if (logged_in) { %>
+                To home page
+            <% } else { %>
+                To login
+            <% } %>
+        </a>
+    </body>
+</html>
+
