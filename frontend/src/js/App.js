@@ -12,6 +12,7 @@ function App() {
         <a href="/courses" className="ui button">All Courses</a>
         <a href="/planner/" className="ui button">Course Tree</a>
         <a href="/enrollment" className="ui button">Enrollment</a>
+        <a href="/users/logout" className="ui button">Logout</a>
       </div>
       <div className="App">
         <h1>Course Tree</h1>
