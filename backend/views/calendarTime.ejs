@@ -21,40 +21,51 @@
 </head>
 
 <body>
-    <div>
-        <h1>Course Times</h1>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header">&ensp;USER CALENDAR</div>
     </div>
-    <div>
-        <% if(calendarList.length > 0){ %>
-            <ul>
-                <% for(var i=0; i < calendarList.length; i++) { %>
-                    <li class="square">
-                        <h3>
-                            <%= calendarList[i]['course_id'] %>
-                        </h3>
-                        <% var time_of_course  = ' ' %>
-                            <% for(var j = 0; j < calendarList[i]['times'].length; j++) { %>
-                                <% if(calendarList[i]['times'].charAt(j) == ';') { %>
-                                    <p>
-                                        <%= time_of_course %>
-                                    </p>
-                                    <% time_of_course  = ' ' %>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column ten wide">
+            <div class="ui medium header">&ensp;Course Times</div>
+            <div class="ui segment">
+                <div class="ui bulleted list">
+                    <% if(calendarList.length > 0){ %>
+                        <ul>
+                            <% for(var i=0; i < calendarList.length; i++) { %>
+                                <div class="item">
+                                    <div class="ui medium header">
+                                        <%= calendarList[i]['course_id'] %>
+                                    </div>
+                                    <% var time_of_course  = ' ' %>
+                                        <% for(var j = 0; j < calendarList[i]['times'].length; j++) { %>
+                                            <% if(calendarList[i]['times'].charAt(j) == ';') { %>
+                                                <div class="item">
+                                                    <%= time_of_course %>
+                                                </div>
+                                                <% time_of_course  = ' ' %>
 
-                                        <% } else{ %>
-                                            <% time_of_course = time_of_course + calendarList[i]['times'].charAt(j) %>
-                                                <% } %>
-                                                    <% } %>
-                                                        <p>
-                                                            <%= time_of_course %>
-                                                                <p>
-                    </li>
+                                                    <% } else{ %>
+                                                        <% time_of_course = time_of_course + calendarList[i]['times'].charAt(j) %>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <div class="item">
+                                                                        <%= time_of_course %>
+                                                                    </div>
+                                </div>
 
-                    <br>
-                    <% } %>
-            </ul>
-            <% } else{ %>
-                <div>You are not enrolled in any classes.</div>
-                <% } %>
+                                <br>
+                                <% } %>
+                        </ul>
+                        <% } else{ %>
+                            <div class="ui small header">You are not enrolled in any classes.</div>
+                            <% } %>
+                </div>
+            </div>
+            <form action="/users/profile">
+                <button style="background-color:#FFD700; color: black" class="ui button" type=submit>Back To Profile</button>
+            </form>
+
+        </div>
     </div>
 </body>
 

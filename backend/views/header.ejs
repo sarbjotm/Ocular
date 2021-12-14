@@ -1,12 +1,14 @@
 <header>
-    <ul>
+    <div class="ui secondary  menu">
         <% if(type === 1) { %>
-            <li><a href="/users/admin">Admin Console</a></li>
-        <% } %>
-        <li><a href="/calendar">Calendar</a></li>
-        <li><a href="/courses">All Courses</a></li>
-        <li><a href="/planner/">Course Tree</a></li>
-        <li><a href="/enrollment">Enrollment</a></li>
-        <li><%- include('logout'); %></li>
-    </ul>
+            <a class="active item" href="/users/admin">Admin Console</a>
+            <% } %>
+                <a class="active item" href="/calendar">Calendar</a>
+                <a class="item" href="/enrollment/list">All Courses</a>
+                <a class="item" href="/planner/">Course Tree</a>
+                <a class="item" href="/enrollment">Enrollment</a>
+                <div class="right menu">
+                    <a href="/users/logout" class="ui item">Logout</a>
+                </div>
+    </div>
 </header>

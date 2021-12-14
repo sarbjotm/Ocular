@@ -7,7 +7,7 @@ const newAccountQuery = 'INSERT INTO users (username, password, email, type) VAL
 const existingAccountQuery = 'SELECT username FROM users WHERE username=$1;';
 const listAccounts = 'SELECT username FROM users ORDER BY id ASC';
 const unapprovedAccounts = 'SELECT * FROM users WHERE is_approved = false';
-const updateApproval = 'UPDATE users SET is_approved = 1 WHERE is_approved = false';
+const updateApproval = 'UPDATE users SET is_approved = true WHERE is_approved = false';
 const getGradesQuery = `SELECT 
     g.course_id AS cid, g.gpa AS gpa, g.year AS year, g.semester AS sem
     FROM users u, grades g
@@ -81,12 +81,12 @@ function logout(req, res, callback) {
     });
 }
 
-function groupYearSemester (accumulator, current) {
-    if (! accumulator.hasOwnProperty(current.year)) {
+function groupYearSemester(accumulator, current) {
+    if (!accumulator.hasOwnProperty(current.year)) {
         accumulator[current.year] = {};
     }
-    if (! accumulator[current.year].hasOwnProperty(current.sem)) {
-        accumulator[current.year][current.sem] = [];   
+    if (!accumulator[current.year].hasOwnProperty(current.sem)) {
+        accumulator[current.year][current.sem] = [];
     }
     let record = {
         id: current.cid,
@@ -103,7 +103,7 @@ async function viewProfile(req, res) {
     let courses = userGrades.rows.reduce(groupYearSemester, {});
     //console.log(courses);
     //console.log(courses['2012']['1'][0].id);
-    return res.render('landing', { 
+    return res.render('landing', {
         username: req.user.username,
         type: req.user.type,
         courses: courses
